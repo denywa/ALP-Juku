@@ -12,6 +12,10 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $table = 'users';
+    protected $primaryKey = 'userID';
+    public $incrementing = true;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -48,4 +52,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function businessProfile()
+    {
+    	return $this->hasOne(businessProfile::class); // one to one
+    }
+
 }

@@ -17,11 +17,12 @@ return new class  extends Migration
         Schema::create('shippingAddress', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('shippingAddressID');
-            $table->string('address', 100);
-            $table->string('city', 100);
+            $table->string('address');
+            $table->string('city');
             $table->integer('pos_code');
-            $table->string('recipient_name', 100);
-            $table->string('phone', 45);
+            $table->string('recipient_name');
+            $table->string('phone');
+            $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();
     }

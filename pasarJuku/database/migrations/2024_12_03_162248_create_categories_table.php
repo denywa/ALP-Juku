@@ -17,19 +17,7 @@ return new class  extends Migration
         Schema::create('category', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('categoryID');
-            $table->enum('category', [
-                'Ikan Mas',
-                'Ikan Nila',
-                'Ikan Lele',
-                'Ikan Patin',
-                'Ikan Gurame',
-                'Ikan Mujair',
-                'Ikan Gabus',
-                'Ikan Bawal',
-                'Udang Air Tawar',
-                'Teri Air Tawar',
-                'Belut'
-            ]);
+            $table->string('category_name');
         });
         Schema::enableForeignKeyConstraints();
     }

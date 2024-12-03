@@ -16,7 +16,7 @@ return new class  extends Migration
         Schema::create('payment', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('paymentID');
-            $table->enum('payment_type', ['BCA', 'gopay', 'DANA', 'OVO']);
+            $table->string('payment_type');
         });
         Schema::enableForeignKeyConstraints();
     }
