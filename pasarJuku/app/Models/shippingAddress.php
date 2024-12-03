@@ -19,4 +19,9 @@ class shippingAddress extends Model
         'recipient_name',
         'phone',
     ];
+
+    public function user()
+    {
+    	return $this->belongsToMany(User::class); //many to many
+    }
 }

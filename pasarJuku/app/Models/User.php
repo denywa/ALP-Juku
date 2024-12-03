@@ -57,5 +57,9 @@ class User extends Authenticatable
     {
     	return $this->hasOne(businessProfile::class); // one to one
     }
-
+    
+    public function shippingAddress()
+    {
+    	return $this->belongsToMany(shippingAddress::class); //many to many
+    }
 }
