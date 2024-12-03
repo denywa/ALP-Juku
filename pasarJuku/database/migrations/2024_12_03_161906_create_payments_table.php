@@ -1,9 +1,4 @@
-
 <?php
-        /**
-     *namespace Database\Migrations;
-     */
-
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,10 +15,10 @@ return new class  extends Migration
         Schema::dropIfExists('payment');
         Schema::create('payment', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('paymentID');
+            $table->id('paymentID');
             $table->enum('payment_type', ['BCA', 'gopay', 'DANA', 'OVO']);
         });
- Schema::enableForeignKeyConstraints();
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
