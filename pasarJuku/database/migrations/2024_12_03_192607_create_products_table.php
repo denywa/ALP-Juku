@@ -17,7 +17,7 @@ return new class  extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('productsID');
-            $table->integer('businessProfileID');
+            $table->unsignedBigInteger('businessProfileID');
             $table->string('name', 100);
             $table->text('description');
             $table->integer('price');
