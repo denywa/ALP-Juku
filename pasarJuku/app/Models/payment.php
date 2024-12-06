@@ -9,7 +9,7 @@ class payment extends Model
 {
     use HasFactory;
 
-    protected $table = 'payment';
+    protected $table = 'payments';
     protected $primaryKey = 'paymentID';
     public $incrementing = true;
     public $timestamps = false; //false krn tidak butuh timestamp, isinya kategori di set dari awal dan tetap.

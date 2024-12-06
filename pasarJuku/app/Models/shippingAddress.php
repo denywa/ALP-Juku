@@ -22,6 +22,6 @@ class shippingAddress extends Model
 
     public function user()
     {
-    	return $this->belongsToMany(User::class); //many to many
+    	return $this->hasMany(User::class); 
     }
 }

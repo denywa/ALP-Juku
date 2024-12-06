@@ -19,6 +19,7 @@ return new class  extends Migration
             $table->id('user_shippingAddressID');
             $table->unsignedBigInteger('userID');
             $table->unsignedBigInteger('shipping_addressID');
+            $table->timestamps(); 
 
             $table->index(["userID"], 'userID_idx');
 

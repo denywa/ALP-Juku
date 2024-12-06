@@ -16,13 +16,15 @@ return new class  extends Migration
         Schema::dropIfExists('products');
         Schema::create('products', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->id('productsID');
+            $table->id('productID');
             $table->unsignedBigInteger('businessProfileID');
-            $table->string('name', 100);
+            $table->string('name');
             $table->text('description');
             $table->integer('price');
             $table->integer('stock');
-            $table->integer('categoryID');
+            $table->unsignedBigInteger('categoryID');
+            $table->timestamps(); 
+
 
             $table->index(["businessProfileID"], 'businessID_idx');
 
@@ -31,13 +33,11 @@ return new class  extends Migration
 
             $table->foreign('businessProfileID')
                 ->references('businessProfileID')->on('businessProfile')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade');
 
             $table->foreign('categoryID')
                 ->references('categoryID')->on('category')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('cascade');
         });
  Schema::enableForeignKeyConstraints();
     }

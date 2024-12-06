@@ -60,6 +60,6 @@ class User extends Authenticatable
     
     public function shippingAddress()
     {
-    	return $this->belongsToMany(shippingAddress::class); //many to many
+    	return $this->hasMany(shippingAddress::class);
     }
 }
