@@ -20,6 +20,7 @@ return new class  extends Migration
         Schema::dropIfExists('payment_process');
         Schema::create('payment_process', function (Blueprint $table) {
             $table->engine = 'InnoDB';
+            $table->id('payment_processID');
             $table->unsignedBigInteger('orderID');
             $table->unsignedBigInteger('paymentID');
             $table->integer('total_price');
