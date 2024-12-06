@@ -12,8 +12,8 @@ return new class  extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('payment');
-        Schema::create('payment', function (Blueprint $table) {
+        Schema::dropIfExists('payments');
+        Schema::create('payments', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('paymentID');
             $table->string('payment_type');

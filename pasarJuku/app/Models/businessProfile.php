@@ -25,4 +25,10 @@ class businessProfile extends Model
     {
         return $this->belongsTo(User::class); // one to one
     }
+    
+    public function product()
+    {
+        return $this->hasMany(product::class); // one to many
+    }
+
 }
