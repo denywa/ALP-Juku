@@ -17,4 +17,9 @@ class payment extends Model
     protected $fillable = [
         'payment_type',
     ];
+
+    public function payment_process()
+    {
+        return $this->hasMany(payment_process::class); // one to many
+    }
 }

@@ -30,4 +30,15 @@ class product extends Model
     {
         return $this->belongsTo(category::class); // one to many
     }
+
+    public function user()
+    {
+    	return $this->belongsToMany(User::class, 'cart');
+    }
+
+    public function order_item()
+    {
+        return $this->hasMany(order_item::class);
+    }
+
 }

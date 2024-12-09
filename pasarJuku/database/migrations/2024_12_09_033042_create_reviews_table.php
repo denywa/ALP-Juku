@@ -1,5 +1,9 @@
 
 <?php
+        /**
+     *namespace Database\Migrations;
+     */
+
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,25 +17,29 @@ return new class  extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('user_shippingAddress');
-        Schema::create('user_shippingAddress', function (Blueprint $table) {
+        Schema::dropIfExists('reviews');
+        Schema::create('reviews', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->id('user_shippingAddressID');
+            $table->id(column: 'reviewID');
             $table->unsignedBigInteger('userID');
-            $table->unsignedBigInteger('shippingAddressID');
-            $table->timestamps(); 
+            $table->unsignedBigInteger('order_itemID');
+            $table->integer('rating');
+            $table->text('comment')->nullable();
+
+            $table->unique(["order_itemID"], 'order_itemID_UNIQUE'); // one to one
+
+            $table->index(["order_itemID"], 'order_itemID_idx');
 
             $table->index(["userID"], 'userID_idx');
 
-            $table->index(["shippingAddressID"], 'shippingAddressID_idx');
+
+            $table->foreign('order_itemID')
+                ->references('order_itemID')->on('order_items')
+                ->onDelete('cascade');
 
 
             $table->foreign('userID')
                 ->references('userID')->on('users')
-                ->onDelete('cascade');
-
-            $table->foreign('shippingAddressID')
-                ->references('shippingAddressID')->on('shippingAddress')
                 ->onDelete('cascade');
 
         });
@@ -43,6 +51,6 @@ return new class  extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_shippingAddress');
+        Schema::dropIfExists('reviews');
     }
 };

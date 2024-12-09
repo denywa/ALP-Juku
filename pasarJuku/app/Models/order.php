@@ -20,4 +20,9 @@ class order extends Model
     {
         return $this->belongsTo(user_ShippingAddress::class);
     }
+
+    public function order_item()
+    {
+        return $this->hasMany(order_item::class);
+    }
 }

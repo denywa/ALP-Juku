@@ -13,27 +13,25 @@ return new class  extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('user_shippingAddress');
-        Schema::create('user_shippingAddress', function (Blueprint $table) {
+        Schema::dropIfExists('cart');
+        Schema::create('cart', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->id('user_shippingAddressID');
             $table->unsignedBigInteger('userID');
-            $table->unsignedBigInteger('shippingAddressID');
-            $table->timestamps(); 
+            $table->unsignedBigInteger('productID');
+            $table->integer('quantity');
 
             $table->index(["userID"], 'userID_idx');
 
-            $table->index(["shippingAddressID"], 'shippingAddressID_idx');
+            $table->index(["productID"], 'productID_idx');
 
 
             $table->foreign('userID')
                 ->references('userID')->on('users')
                 ->onDelete('cascade');
 
-            $table->foreign('shippingAddressID')
-                ->references('shippingAddressID')->on('shippingAddress')
+            $table->foreign('productID')
+                ->references('productID')->on('products')
                 ->onDelete('cascade');
-
         });
  Schema::enableForeignKeyConstraints();
     }
@@ -43,6 +41,6 @@ return new class  extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_shippingAddress');
+        Schema::dropIfExists('cart');
     }
 };

@@ -5,23 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class shippingAddress extends Model
+class review extends Model
 {
     use HasFactory;
 
     protected $table = 'shippingAddress';
     protected $primaryKey = 'shippingAddressID';
     public $incrementing = true;
+
     protected $fillable = [
-        'address',
-        'city',
-        'pos_code',
-        'recipient_name',
-        'phone',
+        'shippingAddressID',
+        'order_itemID',
+        'rating',
+        'comment',
     ];
 
     public function user()
     {
-    	return $this->hasMany(user_shippingAddress::class)->with('shippingAddress'); 
+        return $this->belongsTo(User::class);
     }
+
 }

@@ -20,17 +20,18 @@ return new class  extends Migration
         Schema::dropIfExists('payment_process');
         Schema::create('payment_process', function (Blueprint $table) {
             $table->engine = 'InnoDB';
+            $table->id('payment_processID');
             $table->unsignedBigInteger('orderID');
             $table->unsignedBigInteger('paymentID');
             $table->integer('total_price');
             $table->enum('payment_status', ['pending', 'success']);
             $table->timestamps();
 
-            $table->unique(["ordersID"], 'ordersID_UNIQUE'); // one to one
+            $table->unique(["orderID"], 'orderID_UNIQUE'); // one to one
 
             $table->index(["paymentID"], 'paymentID_idx');
 
-            $table->index(["ordersID"], 'order_detailsID_idx');
+            $table->index(["orderID"], 'order_detailsID_idx');
 
 
             $table->foreign('orderID')
