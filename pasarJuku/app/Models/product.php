@@ -36,4 +36,9 @@ class product extends Model
     	return $this->belongsToMany(User::class, 'cart');
     }
 
+    public function order_item()
+    {
+        return $this->hasMany(order_item::class);
+    }
+
 }

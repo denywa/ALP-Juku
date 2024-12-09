@@ -1,5 +1,9 @@
 
 <?php
+        /**
+     *namespace Database\Migrations;
+     */
+
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,25 +17,28 @@ return new class  extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('cart');
-        Schema::create('cart', function (Blueprint $table) {
+        Schema::dropIfExists('order_items');
+        Schema::create('order_items', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->unsignedBigInteger('userID');
+            $table->id('order_itemID');
             $table->unsignedBigInteger('productID');
             $table->integer('quantity');
-
-            $table->index(["userID"], 'userID_idx');
+            $table->unsignedBigInteger('orderID');
 
             $table->index(["productID"], 'productID_idx');
 
+            $table->index(["orderID"], 'orderID_idx');
 
-            $table->foreign('userID')
-                ->references('userID')->on('users')
-                ->onDelete('cascade');
 
             $table->foreign('productID')
                 ->references('productID')->on('products')
                 ->onDelete('cascade');
+
+
+            $table->foreign('orderID')
+                ->references('orderID')->on('orders')
+                ->onDelete('cascade');
+
         });
  Schema::enableForeignKeyConstraints();
     }
@@ -41,6 +48,6 @@ return new class  extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cart');
+        Schema::dropIfExists('order_items');
     }
 };
