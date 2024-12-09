@@ -13,10 +13,13 @@ class payment_process extends Model
     public $incrementing = true;
 
     protected $fillable = [
+        'paymentID',
         'payment_status',
         'total_price',
     ];
 
-    
-
+    public function payment()
+    {
+        return $this->belongsTo(payment::class); // one to many
+    }
 }

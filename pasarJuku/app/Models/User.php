@@ -60,6 +60,11 @@ class User extends Authenticatable
     
     public function shippingAddress()
     {
-    	return $this->hasMany(shippingAddress::class);
+    	return $this->hasMany(user_shippingAddress::class)->with('user_shippingAddress');
+    }
+
+    public function cart()
+    {
+    	return $this->belongsToMany(product::class, 'cart');
     }
 }
