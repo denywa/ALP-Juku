@@ -27,11 +27,11 @@ return new class  extends Migration
             $table->enum('payment_status', ['pending', 'success']);
             $table->timestamps();
 
-            $table->unique(["ordersID"], 'ordersID_UNIQUE'); // one to one
+            $table->unique(["orderID"], 'orderID_UNIQUE'); // one to one
 
             $table->index(["paymentID"], 'paymentID_idx');
 
-            $table->index(["ordersID"], 'order_detailsID_idx');
+            $table->index(["orderID"], 'order_detailsID_idx');
 
 
             $table->foreign('orderID')
