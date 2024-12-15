@@ -73,4 +73,36 @@ class AuthController extends Controller
             'message' => 'logout success'
         ]);
     }
+
+    public function resetPassword(Request $request)
+    {
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|min:8|confirmed', // validator confirmed untuk field password_confirmation, jadi ada field password dan password_confirmation
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        // Cari user berdasarkan email
+        $user = User::where('email', $request->email)->first();
+
+        // cek password inputnya sama dengan pass lama 
+        if (Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'The new password cannot be the same as the old password',
+            ], 400);
+        }
+
+        // Update password user
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json([
+            'message' => 'Password has been reset successfully',
+        ]);
+    }
 }
