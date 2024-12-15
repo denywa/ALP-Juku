@@ -5,13 +5,14 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
+    use HasFactory, Notifiable, HasApiTokens;
     protected $table = 'users';
     protected $primaryKey = 'userID';
     public $incrementing = true;
@@ -29,6 +30,19 @@ class User extends Authenticatable
         'phone',
         'image',
     ];
+
+
+    /**
+     * image
+     *
+     * @return Attribute
+     */
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn($image) => url('/storage/profile-image/' . $image),
+        );
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -55,22 +69,20 @@ class User extends Authenticatable
 
     public function businessProfile()
     {
-    	return $this->hasOne(businessProfile::class); // one to one
+        return $this->hasOne(businessProfile::class); // one to one
     }
-    
+
     public function shippingAddress()
     {
-    	return $this->hasMany(user_shippingAddress::class)->with('user_shippingAddress');
+        return $this->hasMany(user_shippingAddress::class)->with('user_shippingAddress');
     }
 
     public function cart()
     {
-    	return $this->belongsToMany(product::class, 'cart');
+        return $this->belongsToMany(product::class, 'cart');
     }
     public function review()
     {
         return $this->hasMany(review::class);
     }
-
-    
 }

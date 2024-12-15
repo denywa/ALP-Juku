@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['customer', 'penambak']);
+            $table->enum('role', allowed: ['customer', 'penambak']);
             $table->string('phone');
-            $table->string('image')->nullable();  //simpan path atau nama file gambar
+            $table->string(column: 'image')->nullable();  //simpan path atau nama file gambar
             $table->rememberToken();
             $table->timestamps();
         });
