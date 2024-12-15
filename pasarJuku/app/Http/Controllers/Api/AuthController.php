@@ -16,19 +16,24 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048' // Validasi gambar
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(), 422);
         }
+
+        $image = $request->file('image');
+        $image->storeAs('profile-image', $image->hashName(), 'public');
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role ?? 'customer', // Default role to 'customer' if not provided
             'phone' => $request->phone,
-            'image' => $request->image ?? null
+            'image' => $image->hashName() ?? null
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

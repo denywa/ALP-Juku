@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', allowed: ['customer', 'penambak']);
             $table->string('phone');
-            $table->string('image')->nullable();  //simpan path atau nama file gambar
+            $table->string(column: 'image')->nullable();  //simpan path atau nama file gambar
             $table->rememberToken();
             $table->timestamps();
         });

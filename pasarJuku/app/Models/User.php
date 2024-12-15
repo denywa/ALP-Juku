@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -29,6 +30,19 @@ class User extends Authenticatable
         'phone',
         'image',
     ];
+
+
+    /**
+     * image
+     *
+     * @return Attribute
+     */
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn($image) => url('/storage/profile-image/' . $image),
+        );
+    }
 
     /**
      * The attributes that should be hidden for serialization.
