@@ -41,3 +41,18 @@ Route::get('shipping-addresses/{id}', [shippingAddressController::class, 'show']
 Route::post('shipping-addresses', [shippingAddressController::class, 'store']);
 Route::put('shipping-addresses/{id}', [shippingAddressController::class, 'update']);
 Route::delete('shipping-addresses/{id}', [shippingAddressController::class, 'destroy']);
+
+//user
+Route::get('/users', [UserController::class, 'index']); // Retrieve all users
+Route::get('/users/{id}', [UserController::class, 'show']); // Retrieve a single user by ID
+Route::post('/users', [UserController::class, 'store']); // Create a new user
+// Route::put('/users/{id}', [UserController::class, 'update']); // Update a user by ID
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+//shipping address
+
+Route::get('shipping-addresses', [shippingAddressController::class, 'index']);
+Route::get('shipping-addresses/{id}', [shippingAddressController::class, 'show']);
+Route::post('shipping-addresses', [shippingAddressController::class, 'store']);
+Route::put('shipping-addresses/{id}', [shippingAddressController::class, 'update']);
+Route::delete('shipping-addresses/{id}', [shippingAddressController::class, 'destroy']);
