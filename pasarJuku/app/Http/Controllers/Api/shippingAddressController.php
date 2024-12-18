@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\shippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +34,7 @@ class shippingAddressController extends Controller
         $validator = Validator::make($request->all(), [
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'pos_code' => 'required|integer|max:5',
+            'pos_code' => 'required|integer|digits:5',
             'recipient_name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
         ]);
@@ -59,7 +60,7 @@ class shippingAddressController extends Controller
         $validator = Validator::make($request->all(), [
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'pos_code' => 'required|integer|max:5',
+            'pos_code' => 'required|integer|digits:5',
             'recipient_name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
         ]);
