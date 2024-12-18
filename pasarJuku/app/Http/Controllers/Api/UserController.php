@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        $users = User::all();
-        return response()->json([
-            'status' => true,
-            'message' => 'Users retrieved successfully',
-            'data' => $users
-        ], 200);
-    }
+    // public function index()
+    // {
+    //     $users = User::all();
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Users retrieved successfully',
+    //         'data' => $users
+    //     ], 200);
+    // }
 
     public function show($id)
     {
