@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('shippingAddresses', function (Blueprint $table) {
+            $table->engine = 'InnoDB'; // Specify the storage engine
+            $table->bigIncrements('shippingAddressID');
+            $table->string('address');
+            $table->string('city');
+            $table->string('pos_code'); 
+            $table->string('recipient_name');
+            $table->string('phone'); 
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('shippingaddresses');
+    }
+};
