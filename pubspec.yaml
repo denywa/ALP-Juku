@@ -1,0 +1,27 @@
+name: apk
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  show_hide_password: ^0.0.2
+  font_awesome_flutter: ^10.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/fish.png
+    - assets/sample_fish.png
+    - assets/icons/home.png
+    - assets/icons/orders.png
+    - assets/icons/cart.png
+    - assets/icons/account.png
