@@ -2,43 +2,28 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;    
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class shippingAddressResource extends JsonResource
+class ShippingAddressResource extends JsonResource
 {
-    //define properti
-    public $status;
-    public $message;
-    public $resource;
-
     /**
-     * __construct
+     * Transform the resource into an array.
      *
-     * @param  mixed $status
-     * @param  mixed $message
-     * @param  mixed $resource
-     * @return void
-     */
-    public function __construct($status, $message, $resource)
-    {
-        parent::__construct($resource);
-        $this->status  = $status;
-        $this->message = $message;
-    }
-
-    /**
-     * toArray
-     *
-     * @param  mixed $request
+     * @param Request $request
      * @return array
      */
-    public function toArray(Request $request): array
+    public function toArray($request)
     {
         return [
-            'success'   => $this->status,
-            'message'   => $this->message,
-            'data'      => $this->resource
+            'id' => $this->id,
+            'address' => $this->address,
+            'city' => $this->city,
+            'postal_code' => $this->pos_code,
+            'recipient_name' => $this->recipient_name,
+            'phone' => $this->phone,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
 }
