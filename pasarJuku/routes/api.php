@@ -50,11 +50,11 @@ Route::get('payment-processes', [PaymentProcessController::class, 'index']);
 Route::get('payment-processes/{id}', [PaymentProcessController::class, 'show']);
 Route::post('payment-processes', [PaymentProcessController::class, 'store']);
 Route::put('payment-processes/{id}', [PaymentProcessController::class, 'update']);
-Route::delete('payment-processes/{id}', [PaymentProcessController::class, 'destroy']);
+// Route::delete('payment-processes/{id}', [PaymentProcessController::class, 'destroy']);
 
 //review
 Route::get('reviews', [ReviewController::class, 'index']);
 Route::get('reviews/{id}', [ReviewController::class, 'show']);
 Route::post('reviews', [ReviewController::class, 'store']);
 Route::put('reviews/{id}', [ReviewController::class, 'update']);
-Route::delete('reviews/{id}', [ReviewController::class, 'destroy']);
+// Route::delete('reviews/{id}', [ReviewController::class, 'destroy']);
