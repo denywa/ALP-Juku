@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    // public function index()
-    // {
-    //     $users = User::all();
-    //     return response()->json([
-    //         'status' => true,
-    //         'message' => 'Users retrieved successfully',
-    //         'data' => $users
-    //     ], 200);
-    // }
+    public function index()
+    {
+        $users = User::all();
+        return response()->json([
+            'status' => true,
+            'message' => 'Users retrieved successfully',
+            'data' => $users
+        ], 200);
+    }
 
     public function show($id)
     {
@@ -33,78 +36,99 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users|max:255',
+            'email' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'phone' => 'required|string|max:15',
-            'role' => 'required|string|max:15',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validasi gambar
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation error',
-                'errors' => $validator->errors()
-            ], 422);
+            return response()->json($validator->errors(), 422);
         }
 
-        $users = User::create($request->all());
+        // Default nilai untuk nama gambar
+        $imageName = null;
+
+        // Cek apakah gambar diunggah
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = $image->hashName();
+            $image->storeAs('profile-image', $imageName, 'public');
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role ?? 'customer', // Default role to 'customer' if not provided
+            'phone' => $request->phone,
+            'image' => $imageName, // Simpan nama file atau null jika tidak ada gambar
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
-            'status' => true,
-            'message' => 'User created successfully',
-            'data' => $users
-        ], 201);
+            'data' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
     }
 
-//     public function update(Request $request, $id)
-//     {
-//     $validator = Validator::make($request->all(), [
-//         'name' => 'required|string|max:255',
-//         'email' => 'required|string|email|max:255|unique:users,email,' . ($id ?? ''),
-//         'password' => 'required|string|min:8',
-//         'id_role' => 'required|integer|exists:roles,id_role',
-//         'phone' => 'required|string|max:15',
-//         'image' => 'nullable|url',
-//     ]);
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|string|max:255|unique:users,email,' . $id,
+            'password' => 'sometimes|required|string|min:8',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+        ]);
 
-//     if ($validator->fails()) {
-//         return response()->json([
-//             'status' => false,
-//             'message' => 'Validation error',
-//             'errors' => $validator->errors()
-//         ], 422);
-//     }
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
-//         // Cari user berdasarkan ID
-//     $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-//     // Update data user
-//     $data = $request->all();
-//     if ($request->has('password')) {
-//         $data['password'] = bcrypt($request->password); // Encrypt password jika diubah
-//     } else {
-//         unset($data['password']); // Jangan ubah password jika tidak diberikan
-//     }
-//     $user->update($data);
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                Storage::disk('public')->delete('profile-image/' . $user->image);
+            }
+            $image = $request->file('image');
+            $imageName = $image->hashName();
+            $image->storeAs('profile-image', $imageName, 'public');
+            $user->image = $imageName;
+        }
 
-//     // Kembalikan response sukses
-//     return response()->json([
-//         'status' => true,
-//         'message' => 'User updated successfully',
-//         'data' => $user
-//     ], 200);
-// }
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
 
+        $user->fill($request->except(['password', 'image']));
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User updated successfully',
+            'data' => $user
+        ], 200);
+    }
 
     public function destroy($id)
     {
         $users = User::findOrFail($id);
         $users->delete();
-        
+
         return response()->json([
             'status' => true,
             'message' => 'User deleted successfully'
         ], 204);
     }
-}
 
+    public function getMyData(){
+        $userData = Auth::user();
+        return response()->json([
+            'status' => true,
+            'message' => 'User profile retrieved successfully',
+            'data' => $userData
+        ], 200);
+    }
+}
