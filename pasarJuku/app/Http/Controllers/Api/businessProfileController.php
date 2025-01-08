@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-//import model Post
 use App\Models\businessProfile;
 use App\Http\Controllers\Controller;
-//import resource PostResource
 use App\Http\Resources\businessProfileResource;
-//import Http request
 use Illuminate\Http\Request;
-//import facade Validator
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +26,16 @@ class businessProfileController extends Controller
         return new businessProfileResource(true, 'List Data Posts', $businessProfile);
     }
 
+    public function show($id)
+    {
+        $businessProfile = businessProfile::findOrFail($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Business profile found successfully',
+            'data' => $businessProfile
+        ], 200);
+    }
+
     /**
      * store
      *
@@ -44,7 +50,7 @@ class businessProfileController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'You already have a business profile.'
-            ], 409); // 409 Conflict
+            ], 409); 
         }
 
         //define validation rules
@@ -78,11 +84,86 @@ class businessProfileController extends Controller
         return new businessProfileResource(true, 'Business profile created successfully', $businessProfile);
     }
 
-
-    //Show by user token logged in
-    public function show()
+    /**
+     * update
+     *
+     * @param  mixed $request
+     * @param  mixed $id
+     * @return void
+     */
+    public function update(Request $request, $id)
     {
-        $businessProfile = BusinessProfile::where('userID', Auth::id())->first();
+        // Find the business profile by ID
+        $businessProfile = businessProfile::findOrFail($id);
+
+        // Check if the authenticated user is the owner of the business profile
+        if ($businessProfile->userID !== Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You are not authorized to update this business profile.'
+            ], 403);
+        }
+
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'business_name'     => 'sometimes|required|string|max:255',
+            'business_address'  => 'sometimes|required|string|max:255',
+            'SIUP'              => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'bank_account'      => 'sometimes|required|string|max:255',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        // Update SIUP if a new file is uploaded
+        if ($request->hasFile('SIUP')) {
+            $SIUP = $request->file('SIUP');
+            $SIUP->storeAs('SIUP', $SIUP->hashName(), 'public');
+            $businessProfile->SIUP = $SIUP->hashName();
+        }
+
+        // Update business profile
+        $businessProfile->update($request->only(['business_name', 'business_address', 'bank_account']));
+
+        // Return response
+        return new businessProfileResource(true, 'Business profile updated successfully', $businessProfile);
+    }
+
+    /**
+     * destroy
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function destroy($id)
+    {
+        // Find the business profile by ID
+        $businessProfile = businessProfile::findOrFail($id);
+
+        // Check if the authenticated user is the owner of the business profile
+        if ($businessProfile->userID !== Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You are not authorized to delete this business profile.'
+            ], 403);
+        }
+
+        // Delete the business profile
+        $businessProfile->delete();
+
+        // Return response
+        return response()->json([
+            'success' => true,
+            'message' => 'Business profile deleted successfully.'
+        ], 200);
+    }
+    
+ 
+    public function getMyData()
+    {
+        $businessProfile = Auth::user();
 
         if (!$businessProfile) {
             return response()->json([
@@ -94,5 +175,5 @@ class businessProfileController extends Controller
         return new businessProfileResource(true, 'Business profile retrieved successfully', $businessProfile);
     }
 
-    
+
 }
