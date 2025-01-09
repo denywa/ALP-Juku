@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\shippingAddressController;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Api\businessProfileController;
 
-
 Route::get("/", function (Request $request) {
     return response()->json([
         "message" => "Invalid token, please login"
