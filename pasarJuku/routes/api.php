@@ -51,4 +51,3 @@ Route::get('shipping-addresses/{id}', [shippingAddressController::class, 'show']
 Route::post('shipping-addresses', [shippingAddressController::class, 'store']);
 Route::put('shipping-addresses/{id}', [shippingAddressController::class, 'update']);
 Route::delete('shipping-addresses/{id}', [shippingAddressController::class, 'destroy']);
-
