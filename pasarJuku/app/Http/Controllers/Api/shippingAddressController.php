@@ -3,30 +3,38 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\shippingAddress;
+use App\Models\ShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\ShippingAddressResource;
 
-class shippingAddressController extends Controller
+class ShippingAddressController extends Controller
 {
     public function index()
     {
-        $addresses = shippingAddress::all();
+        $addresses = ShippingAddress::all();
         return response()->json([
             'status' => true,
             'message' => 'Shipping addresses retrieved successfully',
-            'data' => $addresses
+            'data' => ShippingAddressResource::collection($addresses)
         ], 200);
     }
 
     public function show($id)
     {
-        $addresses = shippingAddress::findOrFail($id);
-        return response()->json([
-            'status' => true,
-            'message' => 'Shipping address found successfully',
-            'data' => $addresses
-        ], 200);
+        try {
+            $address = ShippingAddress::findOrFail($id);
+            return response()->json([
+                'status' => true,
+                'message' => 'Shipping address found successfully',
+                'data' => new ShippingAddressResource($address)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Shipping address not found'
+            ], 404);
+        }
     }
 
     public function store(Request $request)
@@ -47,12 +55,19 @@ class shippingAddressController extends Controller
             ], 422);
         }
 
-        $address = shippingAddress::create($request->all());
-        return response()->json([
-            'status' => true,
-            'message' => 'Shipping address created successfully',
-            'data' => $address
-        ], 201);
+        try {
+            $address = ShippingAddress::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Shipping address created successfully',
+                'data' => new ShippingAddressResource($address)
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to create shipping address'
+            ], 500);
+        }
     }
 
     public function update(Request $request, $id)
@@ -73,27 +88,38 @@ class shippingAddressController extends Controller
             ], 422);
         }
 
-        // Cari shipping address berdasarkan ID
-        $addresses = shippingAddress::findOrFail($id);
+        try {
+            $address = ShippingAddress::findOrFail($id);
+            $address->update($request->all());
 
-        // Update data shipping address
-        $addresses->update($request->all());
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Shipping address updated successfully',
-            'data' => $addresses
-        ], 200);
+            return response()->json([
+                'status' => true,
+                'message' => 'Shipping address updated successfully',
+                'data' => new ShippingAddressResource($address)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to update shipping address'
+            ], 500);
+        }
     }
 
     public function destroy($id)
     {
-        $addresses = shippingAddress::findOrFail($id);
-        $addresses->delete();
+        try {
+            $address = ShippingAddress::findOrFail($id);
+            $address->delete();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Shipping address deleted successfully',
-        ], 200);
+            return response()->json([
+                'status' => true,
+                'message' => 'Shipping address deleted successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to delete shipping address'
+            ], 500);
+        }
     }
 }

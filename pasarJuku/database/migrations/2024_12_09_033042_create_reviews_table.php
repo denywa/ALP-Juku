@@ -25,7 +25,7 @@ return new class  extends Migration
             $table->unsignedBigInteger('order_itemID');
             $table->integer('rating');
             $table->text('comment')->nullable();
-
+            $table->timestamps();
             $table->unique(["order_itemID"], 'order_itemID_UNIQUE'); // one to one
 
             $table->index(["order_itemID"], 'order_itemID_idx');
