@@ -12,6 +12,14 @@ class PaymentSeeder extends Seeder
      */
     public function run(): void
     {
-        payment::factory()->count(10)->create();
+        $payments = [
+            ['payment_type' => 'GoPay'],
+            ['payment_type' => 'OVO'],
+            ['payment_type' => 'DANA'],
+            ['payment_type' => 'BCA'],
+        ];
+        foreach ($payments as $payment) {
+            payment::create($payment);
+        }
     }
 }
