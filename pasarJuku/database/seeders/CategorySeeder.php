@@ -25,7 +25,6 @@ class CategorySeeder extends Seeder
             ['category_name' => 'Teri Air Tawar'],
             ['category_name' => 'Belut'],
         ];
-
         foreach ($categories as $category) {
             category::create($category);
         }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\payment;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PaymentSeeder extends Seeder
@@ -19,7 +18,6 @@ class PaymentSeeder extends Seeder
             ['payment_type' => 'DANA'],
             ['payment_type' => 'BCA'],
         ];
-
         foreach ($payments as $payment) {
             payment::create($payment);
         }

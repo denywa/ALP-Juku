@@ -4,10 +4,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
+
 
 class businessProfile extends Model
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
 
     protected $table = 'businessProfile';
     protected $primaryKey = 'businessProfileID';
@@ -22,22 +24,22 @@ class businessProfile extends Model
         'verified_status'
     ];
 
+
         /**
      * SIUP
      *
      * @return Attribute
      */
-    protected function SIUP(): Attribute
+    protected function SIUP(): Attribute  // Ubah dari image() menjadi SIUP()
     {
         return Attribute::make(
             get: fn($SIUP) => url('/storage/SIUP/' . $SIUP),
         );
     }
 
-
     public function user()
     {
-        return $this->belongsTo(User::class); // one to one
+        return $this->belongsTo(User::class, 'userID'); // one to one
     }
     
     public function product()

@@ -2,43 +2,36 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;    
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class businessProfileResource extends JsonResource
 {
-    //define properti
     public $status;
     public $message;
-    public $resource;
-
-    /**
-     * __construct
-     *
-     * @param  mixed $status
-     * @param  mixed $message
-     * @param  mixed $resource
-     * @return void
-     */
+    
     public function __construct($status, $message, $resource)
     {
         parent::__construct($resource);
-        $this->status  = $status;
+        $this->status = $status;
         $this->message = $message;
     }
 
-    /**
-     * toArray
-     *
-     * @param  mixed $request
-     * @return array
-     */
-    public function toArray(Request $request): array
+    public function toArray($request)
     {
         return [
-            'success'   => $this->status,
-            'message'   => $this->message,
-            'data'      => $this->resource
+            'success' => $this->status,
+            'message' => $this->message,
+            'data' => [
+                'businessProfileID' => $this->businessProfileID,
+                'userID' => $this->userID,
+                'business_name' => $this->business_name,
+                'business_address' => $this->business_address,
+                'SIUP' => $this->SIUP, // Ini akan memanggil accessor SIUP dari model
+                'bank_account' => $this->bank_account,
+                'verified_status' => $this->verified_status,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+            ]
         ];
     }
 }

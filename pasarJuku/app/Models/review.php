@@ -9,8 +9,8 @@ class review extends Model
 {
     use HasFactory;
 
-    protected $table = 'shippingAddress';
-    protected $primaryKey = 'shippingAddressID';
+    protected $table = 'reviews';
+    protected $primaryKey = 'reviewID';
     public $incrementing = true;
 
     protected $fillable = [

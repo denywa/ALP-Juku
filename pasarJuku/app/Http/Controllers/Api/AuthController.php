@@ -17,15 +17,22 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048' // Validasi gambar
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validasi gambar
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $image = $request->file('image');
-        $image->storeAs('profile-image', $image->hashName(), 'public');
+        // Default nilai untuk nama gambar
+        $imageName = null;
+
+        // Cek apakah gambar diunggah
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = $image->hashName();
+            $image->storeAs('profile-image', $imageName, 'public');
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -33,7 +40,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role ?? 'customer', // Default role to 'customer' if not provided
             'phone' => $request->phone,
-            'image' => $image->hashName() ?? null
+            'image' => $imageName, // Simpan nama file atau null jika tidak ada gambar
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -41,10 +48,9 @@ class AuthController extends Controller
         return response()->json([
             'data' => $user,
             'access_token' => $token,
-            'token_type' => 'Bearer'
+            'token_type' => 'Bearer',
         ]);
     }
-
     public function login(Request $request)
     {
         if (! Auth::attempt($request->only('email', 'password'))) {
@@ -66,9 +72,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        $user = request()->user();
-        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
-
+        Auth::user()->tokens()->delete();
         return response()->json([
             'message' => 'logout success'
         ]);
