@@ -369,12 +369,9 @@ Widget build(BuildContext context) {
         ),
       ),
     ),
-        ],
   ),
 )
         ],
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
       ),
     );
   }
