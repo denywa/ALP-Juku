@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class  extends Migration
 {
-        /**
+    /**
      * Run the migrations.
      */
     public function up()
@@ -21,9 +21,11 @@ return new class  extends Migration
             $table->string('name');
             $table->text('description');
             $table->integer('price');
+            $table->enum('unit', ['kg', 'gr', 'liter', 'ml', 'pcs']); // Satuan harga
             $table->integer('stock');
+            $table->string('image');
             $table->unsignedBigInteger('categoryID');
-            $table->timestamps(); 
+            $table->timestamps();
 
 
             $table->index(["businessProfileID"], 'businessID_idx');
@@ -39,7 +41,7 @@ return new class  extends Migration
                 ->references('categoryID')->on('category')
                 ->onDelete('cascade');
         });
- Schema::enableForeignKeyConstraints();
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

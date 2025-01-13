@@ -11,7 +11,6 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
     protected $table = 'users';
     protected $primaryKey = 'userID';
@@ -69,7 +68,7 @@ class User extends Authenticatable
 
     public function businessProfile()
     {
-        return $this->hasOne(businessProfile::class); // one to one
+        return $this->hasOne(businessProfile::class, 'userID'); // one to one
     }
 
     public function shippingAddress()

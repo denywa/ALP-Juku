@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\businessProfileController;
 use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\PaymentProcessController;
 use App\Http\Controllers\Api\ReviewController;
-
+use App\Http\Controllers\Api\ProductController;
 
 Route::get("/", function (Request $request) {
     return response()->json([
@@ -49,6 +49,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy']); // Delete a user by ID
 });
 
+//product
+Route::middleware(['auth:sanctum', 'role:penambak'])->group(function () {
+    Route::post('/products', [ProductController::class, 'store']); // Create a new product
+    Route::put('/products/{id}', [ProductController::class, 'update']); // Update a product by ID
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']); // Delete a product by ID
+});
+Route::get('/products', [ProductController::class, 'index']); // Retrieve all products
+Route::get('/products/{id}', [ProductController::class, 'show']); // Retrieve a single product by ID
 
 Route::get('shipping-addresses', [shippingAddressController::class, 'index']);
 Route::get('shipping-addresses/{id}', [shippingAddressController::class, 'show']);
