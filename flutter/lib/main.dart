@@ -1,16 +1,157 @@
 import 'package:flutter/material.dart';
+import 'checkout.dart'; 
 
 void main() => runApp(CartApp());
 
 class CartApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Define the main structure of the app
     return MaterialApp(
-      home: ShoppingCartScreen(),
+      home: Dashboard(),
       theme: ThemeData.light(),
     );
   }
 }
+
+class Dashboard extends StatefulWidget {
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  int _currentIndex = 2; // Tracks the current index of the bottom navigation bar
+
+  final List<Widget> _pages = [
+    ShoppingCartScreen(), // Main shopping cart screen
+    // Orders screen
+    Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('assets/icons/orders.png', height: 100),
+          const SizedBox(height: 10),
+          const Text(
+            'Pesanan Anda',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    ),
+    // Another cart screen (placeholder)
+    Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('assets/icons/cart.png', height: 100),
+          const SizedBox(height: 10),
+          const Text(
+            'Keranjang Belanja',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    ),
+    // User account screen
+    Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('assets/icons/account.png', height: 100),
+          const SizedBox(height: 10),
+          const Text(
+            'Akun Saya',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final double navbarHeight = MediaQuery.of(context).size.height * 0.08 + 25; // Increase dynamic height for the navigation bar by 35 pixels
+
+    return Scaffold(
+      body: _pages[_currentIndex], // Display the current page based on the selected index
+      bottomNavigationBar: SizedBox(
+        height: navbarHeight,
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed, // Fixed layout for items
+          currentIndex: _currentIndex, // Highlight the selected index
+          onTap: (index) {
+            // Handle navigation bar tap
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          showSelectedLabels: false, // Hide labels for selected items
+          showUnselectedLabels: false, // Hide labels for unselected items
+          items: [
+            // Define navigation bar items with icons
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: SizedBox(
+                  height: navbarHeight * 0.6, // Dynamic height for the icons
+                  child: Image.asset(
+                    'assets/icons/home.png',
+                    fit: BoxFit.contain,
+                    color: _currentIndex == 0 ? Colors.blue : Colors.grey, // Highlight the selected icon
+                  ),
+                ),
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: SizedBox(
+                  height: navbarHeight * 0.6,
+                  child: Image.asset(
+                    'assets/icons/orders.png',
+                    fit: BoxFit.contain,
+                    color: _currentIndex == 1 ? Colors.blue : Colors.grey,
+                  ),
+                ),
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: SizedBox(
+                  height: navbarHeight * 0.6,
+                  child: Image.asset(
+                    'assets/icons/cart.png',
+                    fit: BoxFit.contain,
+                    color: _currentIndex == 2 ? Colors.blue : Colors.grey,
+                  ),
+                ),
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: const EdgeInsets.only(bottom: 4.0),
+                child: SizedBox(
+                  height: navbarHeight * 0.6,
+                  child: Image.asset(
+                    'assets/icons/account.png',
+                    fit: BoxFit.contain,
+                    color: _currentIndex == 3 ? Colors.blue : Colors.grey,
+                  ),
+                ),
+              ),
+              label: '',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 
 class ShoppingCartScreen extends StatefulWidget {
   @override
@@ -126,42 +267,44 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100),
-        child: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Center(
-              child: Image.asset(
-                'assets/logo.png', // Replace with your logo asset
-                height: 50,
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: PreferredSize(
+      preferredSize: Size.fromHeight(140), // Increased height by 20 pixels (now 140)
+      child: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.only(top: 40.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, // Vertically center the content
+            children: [
+              Center(
+                child: Image.asset(
+                  'assets/logo.png', // Replace with your logo asset
+                  height: 50,
+                ),
               ),
-            ),
+              SizedBox(height: 8.0), // Space between logo and text
+              Text(
+                "KERANJANG",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
         ),
       ),
-      body: Column(
-        children: [
-          // "KERANJANG" Title
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Text(
-              "KERANJANG",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-          ),
+    ),
+    body: Column(
+      children: [
           // "Pilih Semua" Checkbox
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 16.0),
             child: Row(
               children: [
                 Checkbox(
@@ -198,30 +341,37 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
           ),
           // "Checkout" Button
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: Text("Checkout"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                minimumSize: Size(double.infinity, 50),
-              ),
-            ),
+  padding: const EdgeInsets.all(16.0),
+  child: Align(
+    alignment: Alignment.centerRight, // Align to the right
+    child: FractionallySizedBox(
+      alignment: Alignment.center, // Center the button within its allocated space
+      widthFactor: 1 / 3, // Set the width to 1/3 of its current size
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CheckoutPage()),
+          );
+        },
+        child: Text(
+          "Checkout",
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Bold text
+            color: Colors.white, // White text
           ),
-        ],
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue,
+          padding: EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          minimumSize: Size(double.infinity, 50),
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Beranda"),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt), label: "Pesanan"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Keranjang"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Akun"),
+    ),
+  ),
+)
         ],
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
       ),
     );
   }
@@ -386,7 +536,6 @@ class _HoverableCardState extends State<HoverableCard> {
     );
   }
 }
-
 
 class LanjutBelanjaPage extends StatelessWidget {
   @override
