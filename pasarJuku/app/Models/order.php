@@ -13,16 +13,16 @@ class order extends Model
     public $incrementing = true;
 
     protected $fillable = [
+        'user_shippingAddressID',
         'order_status'
     ];
 
-    public function user_ShippingAddress()
+    public function user_shippingAddress()
     {
-        return $this->belongsTo(user_ShippingAddress::class);
+        return $this->belongsTo(user_shippingAddress::class, 'user_shippingAddressID', 'user_shippingAddressID');
     }
-
     public function order_item()
     {
-        return $this->hasMany(order_item::class);
+        return $this->hasMany(order_item::class,  'orderID', 'orderID');
     }
 }

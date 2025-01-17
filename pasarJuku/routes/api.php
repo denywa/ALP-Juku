@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\PaymentProcessController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\OrderController;
 
 Route::get("/", function (Request $request) {
     return response()->json([
@@ -58,18 +59,31 @@ Route::middleware(['auth:sanctum', 'role:penambak'])->group(function () {
 Route::get('/products', [ProductController::class, 'index']); // Retrieve all products
 Route::get('/products/{id}', [ProductController::class, 'show']); // Retrieve a single product by ID
 
-Route::get('shipping-addresses', [shippingAddressController::class, 'index']);
-Route::get('shipping-addresses/{id}', [shippingAddressController::class, 'show']);
-Route::post('shipping-addresses', [shippingAddressController::class, 'store']);
-Route::put('shipping-addresses/{id}', [shippingAddressController::class, 'update']);
-Route::delete('shipping-addresses/{id}', [shippingAddressController::class, 'destroy']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('user/{userID}/shipping-address')->group(function () {
+        Route::post('/', [ShippingAddressController::class, 'createShippingAddress']);
+        // Mengambil semua shipping address user
+        Route::get('/', [ShippingAddressController::class, 'getUserShippingAddresses']);
+        Route::get('/{shippingAddressID}', [ShippingAddressController::class, 'getShippingAddress']);
+        Route::put('/{shippingAddressID}', [ShippingAddressController::class, 'updateShippingAddress']);
+        Route::delete('/{shippingAddressID}', [ShippingAddressController::class, 'deleteShippingAddress']);
+    });
+});
 
-//order items
-Route::get('order-items', [OrderItemController::class, 'index']);
-Route::get('order-items/{id}', [OrderItemController::class, 'show']);
-Route::post('order-items', [OrderItemController::class, 'store']);
-Route::put('order-items/{id}', [OrderItemController::class, 'update']);
-Route::delete('order-items/{id}', [OrderItemController::class, 'destroy']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('orders')->group(function () {
+        // Create new order
+        Route::post('/', [OrderController::class, 'createOrder']);
+        // Get user's orders
+        Route::get('/', [OrderController::class, 'getUserOrders']);
+        // Get specific order detail
+        Route::get('/{orderID}', [OrderController::class, 'getOrderDetail']);
+        // Update order status
+        Route::put('/{orderID}/status', [OrderController::class, 'updateOrderStatus']);
+        // Cancel order
+        Route::put('/{orderID}/cancel', [OrderController::class, 'cancelOrder']);
+    });
+});
 
 //payment process
 Route::get('payment-processes', [PaymentProcessController::class, 'index']);

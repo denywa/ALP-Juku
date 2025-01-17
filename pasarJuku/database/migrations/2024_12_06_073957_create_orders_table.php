@@ -21,7 +21,7 @@ return new class  extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('orderID');
-            $table->unsignedBigInteger('user_shippingAddressID');
+            $table->unsignedBigInteger('user_shippingAddressID')->nullable();
             $table->enum('order_status', ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled']);
             $table->timestamps(); 
 
@@ -29,7 +29,7 @@ return new class  extends Migration
 
 
             $table->foreign('user_shippingAddressID')
-                ->references('user_shippingAddressID')->on('user_shippingAddress')
+                ->references('user_shippingAddressID')->on('user_shippingaddress')
                 ->onDelete('cascade');
         });
  Schema::enableForeignKeyConstraints();
