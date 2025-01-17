@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function shippingAddress()
     {
-        return $this->hasMany(user_shippingAddress::class)->with('user_shippingAddress');
+        return $this->belongsToMany(shippingAddress::class, 'user_shippingaddress', 'userID', 'shippingAddressID')->withPivot('user_shippingAddressID');
     }
 
     public function cart()

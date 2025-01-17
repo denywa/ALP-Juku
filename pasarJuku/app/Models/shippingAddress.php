@@ -9,7 +9,7 @@ class shippingAddress extends Model
 {
     use HasFactory;
 
-    protected $table = 'shippingAddress';
+    protected $table = 'shippingaddress';
     protected $primaryKey = 'shippingAddressID';
     public $incrementing = true;
     protected $fillable = [
@@ -22,6 +22,6 @@ class shippingAddress extends Model
 
     public function user()
     {
-    	return $this->hasMany(user_shippingAddress::class)->with('shippingAddress'); 
+    	return $this->belongsToMany(User::class, 'user_shippingaddress', 'shippingAddressID', 'userID')->withPivot('user_shippingAddressID'); 
     }
 }
