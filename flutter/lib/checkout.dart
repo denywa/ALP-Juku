@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'bayarberhasil.dart';
 
 class CheckoutPage extends StatefulWidget {
   @override
@@ -7,6 +8,45 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   String? selectedPaymentMethod;
+  String address = "Felicia | (+62) 812-345-6778\nUniversitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar";
+
+  void _showChangeAddressDialog() {
+    TextEditingController addressController = TextEditingController(text: address);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Ganti Alamat"),
+          content: TextField(
+            controller: addressController,
+            maxLines: 3,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: "Masukkan alamat baru",
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Batal"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  address = addressController.text;
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text("Simpan"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +108,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         ),
                         Spacer(),
                         TextButton(
-                          onPressed: () {
-                            // Add functionality to change the address
-                          },
+                          onPressed: _showChangeAddressDialog,
                           child: Text(
                             "Ganti Alamat",
                             style: TextStyle(color: Colors.blue),
@@ -80,7 +118,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      "Felicia | (+62) 812-345-6778\nUniversitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar",
+                      address,
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
@@ -230,28 +268,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ],
               ),
               SizedBox(height: 16),
-              Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add functionality to process the order
-                  },
-                  child: Text(
-                    "Bayar",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
-                ),
-              ),
+Align(
+  alignment: Alignment.centerRight,
+  child: ElevatedButton(
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BayarBerhasil(),
+        ),
+      );
+    },
+    child: Text(
+      "Bayar",
+      style: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.blue,
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12)),
+    ),
+  ),
+),
             ],
           ),
         ),
