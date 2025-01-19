@@ -93,8 +93,18 @@ Route::put('payment-processes/{id}', [PaymentProcessController::class, 'update']
 // Route::delete('payment-processes/{id}', [PaymentProcessController::class, 'destroy']);
 
 //review
-Route::get('reviews', [ReviewController::class, 'index']);
-Route::get('reviews/{id}', [ReviewController::class, 'show']);
-Route::post('reviews', [ReviewController::class, 'store']);
-Route::put('reviews/{id}', [ReviewController::class, 'update']);
-// Route::delete('reviews/{id}', [ReviewController::class, 'destroy']);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('review')->group(function () {
+        // Endpoint untuk membuat review
+        Route::post('/order-item/{orderItemID}', [ReviewController::class, 'createReview']);
+        // Endpoint untuk mendapatkan review berdasarkan order item ID
+        Route::get('/order-item/{orderItemID}', [ReviewController::class, 'getReviewsByOrderItem']);
+        // Endpoint untuk mendapatkan semua review milik user yang sedang login
+        Route::get('/user', [ReviewController::class, 'getUserReviews']);
+        Route::put('/{reviewID}', [ReviewController::class, 'updateReview']);
+        Route::get('/average-rating/{productID}', [ReviewController::class, 'getAverageRatingByProduct']);
+        
+    });
+});

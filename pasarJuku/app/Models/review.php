@@ -14,7 +14,7 @@ class review extends Model
     public $incrementing = true;
 
     protected $fillable = [
-        'shippingAddressID',
+        'userID',
         'order_itemID',
         'rating',
         'comment',
@@ -22,7 +22,11 @@ class review extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'userID', 'userID'); 
     }
 
+    public function order_item()
+    {
+        return $this->belongsTo(order_item::class, 'order_itemID', 'order_itemID'); 
+    }
 }
