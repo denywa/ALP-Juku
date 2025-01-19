@@ -87,7 +87,7 @@ class businessProfileController extends Controller
 
     /**
      * update
-     *
+     * 
      * @param  mixed $request
      * @param  mixed $id
      * @return void

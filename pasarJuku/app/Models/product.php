@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use SebastianBergmann\CodeCoverage\Report\Xml\Totals;
 
-class product extends Model 
+class product extends Model
 {
     use HasFactory;
 
@@ -42,7 +43,7 @@ class product extends Model
 
     public function user()
     {
-    	return $this->belongsToMany(User::class, 'cart');
+        return $this->belongsToMany(User::class, 'cart');
     }
 
     public function order_item()
@@ -50,4 +51,9 @@ class product extends Model
         return $this->hasMany(order_item::class);
     }
 
+    // app/Models/Product.php
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'cart', 'productID', 'userID')->withPivot('quantity','total_price')->withTimestamps();
+    }
 }
