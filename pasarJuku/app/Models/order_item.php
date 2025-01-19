@@ -30,7 +30,7 @@ class order_item extends Model
 
     public function review()
     {
-        return $this->hasOne(review::class);
+        return $this->hasOne(review::class, 'order_itemID', 'order_itemID');
     }
 
 }
