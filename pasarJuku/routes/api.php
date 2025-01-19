@@ -56,7 +56,9 @@ Route::middleware(['auth:sanctum', 'role:penambak'])->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update']); // Update a product by ID
     Route::delete('/products/{id}', [ProductController::class, 'destroy']); // Delete a product by ID
 });
+
 Route::get('/products', [ProductController::class, 'index']); // Retrieve all products
+Route::get('/products/search', [ProductController::class, 'search']);
 Route::get('/products/{id}', [ProductController::class, 'show']); // Retrieve a single product by ID
 
 Route::middleware('auth:sanctum')->group(function () {

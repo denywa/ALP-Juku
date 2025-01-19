@@ -146,4 +146,40 @@ class ProductController extends Controller
             'message' => 'Product deleted successfully.'
         ], 200);
     }
+
+    public function search(Request $request)
+    {
+        // Validate the search parameter
+        $validator = Validator::make($request->all(), [
+            'keyword' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Perform the search
+        $products = Product::where('name', 'LIKE', "%{$request->keyword}%")
+                          ->orWhere('description', 'LIKE', "%{$request->keyword}%")
+                          ->get();
+
+        // Check if there are no search results
+        if ($products->isEmpty()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'No search results found',
+                'data' => []
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Search results retrieved successfully',
+            'data' => $products
+        ], 200);
+    }
 }
