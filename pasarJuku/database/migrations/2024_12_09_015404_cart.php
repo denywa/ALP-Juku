@@ -16,9 +16,12 @@ return new class  extends Migration
         Schema::dropIfExists('cart');
         Schema::create('cart', function (Blueprint $table) {
             $table->engine = 'InnoDB';
+            $table->id('cartID');
             $table->unsignedBigInteger('userID');
             $table->unsignedBigInteger('productID');
-            $table->integer('quantity');
+            $table->integer('quantity')->default(1);
+            $table->integer('total_price')->default(0);
+            $table->timestamps();
 
             $table->index(["userID"], 'userID_idx');
 

@@ -22,7 +22,7 @@ return new class  extends Migration
             $table->string('business_address');
             $table->string('SIUP'); 
             $table->string('bank_account');
-            $table->tinyInteger('verified_status')->default(0); // Default 0 = not verified
+            $table->tinyInteger('verified_status')->default(1); 
             $table->timestamps(); 
 
             $table->unique('userID', 'userID_UNIQUE'); 

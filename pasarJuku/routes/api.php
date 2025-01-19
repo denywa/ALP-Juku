@@ -7,11 +7,12 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\shippingAddressController;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Api\businessProfileController;
-use App\Http\Controllers\Api\OrderItemController;
 use App\Http\Controllers\Api\PaymentProcessController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\CartController;
+
 
 Route::get("/", function (Request $request) {
     return response()->json([
@@ -95,8 +96,6 @@ Route::put('payment-processes/{id}', [PaymentProcessController::class, 'update']
 // Route::delete('payment-processes/{id}', [PaymentProcessController::class, 'destroy']);
 
 //review
-
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('review')->group(function () {
         // Endpoint untuk membuat review
@@ -109,4 +108,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/average-rating/{productID}', [ReviewController::class, 'getAverageRatingByProduct']);
         
     });
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/cart', [CartController::class, 'index']); // Menampilkan semua item di keranjang
+    Route::post('/cart', [CartController::class, 'store']); // Menambahkan produk ke keranjang
+    Route::get('/cart/{id}', [CartController::class, 'show']); // Memperbarui jumlah produk di keranjang
+    Route::put('/cart/{id}', [CartController::class, 'update']); // Memperbarui jumlah produk di keranjang
+    Route::delete('/cart/{id}', [CartController::class, 'destroy']); // Menghapus produk dari keranjang
 });
