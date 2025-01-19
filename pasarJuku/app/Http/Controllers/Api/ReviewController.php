@@ -160,6 +160,7 @@ class ReviewController extends Controller
 
         return response()->json([
             'status' => 'success',
+            'productID' => $productID,
             'average_rating' => $averageRating,
         ]);
     }
