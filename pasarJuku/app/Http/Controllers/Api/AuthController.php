@@ -18,6 +18,7 @@ class AuthController extends Controller
             'email' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validasi gambar
+            'phone' => 'required|string|max:15', // Validasi nomor telepon
         ]);
 
         if ($validator->fails()) {
