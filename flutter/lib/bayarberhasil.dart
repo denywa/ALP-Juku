@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main.dart'; // Ensure you import your `Dashboard` class here
+import 'dashboard_screen.dart'; // Ensure this is the correct file for DashboardScreen
 
 class BayarBerhasil extends StatelessWidget {
   @override
@@ -47,7 +47,7 @@ class BayarBerhasil extends StatelessWidget {
                 // Navigate directly to the Dashboard
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Dashboard()),
+                  MaterialPageRoute(builder: (context) => DashboardScreen()), // Ensure correct class name here
                 );
               },
               child: Text(
