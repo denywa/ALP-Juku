@@ -1,6 +1,9 @@
+import 'package:apk/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'lanjutbelanja.dart';
-
+import 'navbar.dart';
+import 'pesanan_screen.dart';
+import 'menu_screen.dart';
 
 class KeranjangScreen extends StatefulWidget {
   @override
@@ -8,6 +11,27 @@ class KeranjangScreen extends StatefulWidget {
 }
 
 class _KeranjangScreenState extends State<KeranjangScreen> {
+    int _currentIndex = 0; // Indeks halaman yang sedang aktif
+
+  // Daftar halaman yang akan dipilih berdasarkan indeks
+  final List<Widget> _screens = [
+    DashboardScreen(),
+    PesananScreen(),
+    KeranjangScreen(),
+    MenuScreen(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+  
   List<CartItem> cartItems = [
     CartItem(
       itemNumber: 1,
@@ -48,7 +72,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LanjutBayarPage(),
+        builder: (context) => DashboardScreen(),
       ),
     );
   }
@@ -194,11 +218,12 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                 widthFactor: 1 / 3,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigate to Checkout page (ensure CheckoutPage is imported)
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => CheckoutPage()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LanjutBayarPage(), // Navigate to LanjutBayarPage
+                      ),
+                    );
                   },
                   child: Text(
                     "Checkout",
@@ -215,6 +240,10 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Navbar(
+        currentIndex: _currentIndex, // Tab yang aktif
+        onTap: _onItemTapped, // Menangani perubahan tab
       ),
     );
   }
@@ -374,3 +403,4 @@ class QuantityOption extends StatelessWidget {
     );
   }
 }
+
