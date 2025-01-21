@@ -1,3 +1,5 @@
+import 'package:apk/detail_pesanan.dart';
+import 'package:apk/detail_riwayat.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';  
 import 'dashboard_screen.dart'; 
@@ -9,6 +11,7 @@ import 'info.dart';
 import 'riwayat.dart';  
 import 'profil_tambak.dart';
 import 'editprofil_tambak.dart';
+import 'detail_pesanan.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +38,9 @@ class MyApp extends StatelessWidget {
         '/riwayat': (context) => const RiwayatScreen(), // Rute untuk RiwayatScreen
         '/profilTambakPage': (context) => ProfilTambakPage(),
         '/editprofilTambakPage': (context) => EditProfilTambakPage(),
-
+        '/detailriwayat': (context) => DetailRiwayatPage(
+        item: ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>,
+      ),
       },
     );
   }
