@@ -5,6 +5,7 @@ import 'pesanan_screen.dart';
 import 'menu_screen.dart';
 import 'dashboard_screen.dart';
 import 'keranjang_screen.dart';
+import 'detail_pesanan.dart';
 
 class CartItem {
   final String imageUrl;
@@ -43,69 +44,6 @@ class _PesananScreenState extends State<PesananScreen> {
         MaterialPageRoute(builder: (context) => _screens[index]),
       );
     }
-  }
-
-  void showItemDetail(CartItem item) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.7,
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Image.asset(item.imageUrl, width: 100, height: 100, fit: BoxFit.cover),
-                SizedBox(height: 16),
-                Text(
-                  item.title,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                Text(item.subtitle),
-                SizedBox(height: 16),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      QuantityOption(quantity: "6 kg", price: "Rp20.000"),
-                      QuantityOption(quantity: "10 kg", price: "Rp22.000"),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Total harga",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(item.price),
-                  ],
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Close"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    minimumSize: Size(double.infinity, 50),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -163,7 +101,14 @@ class _PesananScreenState extends State<PesananScreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: InkWell(
-                onTap: () => showItemDetail(item),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailPesananPage(item: item),
+                    ),
+                  );
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -248,21 +193,6 @@ class _PesananScreenState extends State<PesananScreen> {
         currentIndex: _currentIndex,
         onTap: _onItemTapped,
       ),
-    );
-  }
-}
-
-class QuantityOption extends StatelessWidget {
-  final String quantity;
-  final String price;
-
-  QuantityOption({required this.quantity, required this.price});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(quantity),
-      trailing: Text(price),
     );
   }
 }

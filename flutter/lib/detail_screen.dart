@@ -65,6 +65,56 @@ class DetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
+              // Store Profile Card
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/profilTambakPage');
+                },
+                child: Card(
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundImage: AssetImage('assets/tambak.png'), // Replace with your store profile image path
+                            ),
+                            const SizedBox(width: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  'Tambak Ikan A',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Tambak ikan nila',
+                                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
               // Product Description
               Card(
                 elevation: 2,
@@ -105,6 +155,7 @@ class DetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 80), // Extra padding to prevent overlap with buttons
             ],
           ),
           // Floating Action Buttons for Add to Cart and Buy Now
@@ -120,8 +171,8 @@ class DetailScreen extends StatelessWidget {
                   onPressed: () {
                     // Add to cart logic goes here
                   },
-                  label: Text("Tambahkan ke Keranjang"),
-                  icon: Icon(Icons.shopping_cart),
+                  label: const Text("Tambahkan ke Keranjang"),
+                  icon: const Icon(Icons.shopping_cart),
                   backgroundColor: Colors.blue,
                 ),
                 // Buy Now Button
@@ -129,8 +180,8 @@ class DetailScreen extends StatelessWidget {
                   onPressed: () {
                     // Buy now logic goes here
                   },
-                  label: Text("Beli Sekarang"),
-                  icon: Icon(Icons.payment),
+                  label: const Text("Beli Sekarang"),
+                  icon: const Icon(Icons.payment),
                   backgroundColor: Colors.green,
                 ),
               ],

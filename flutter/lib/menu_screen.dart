@@ -53,10 +53,6 @@ class _MenuScreenState extends State<MenuScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: Image.network(
-          'https://via.placeholder.com/50', // Ganti dengan URL gambar logo
-          height: 50,
-        ),
       ),
       body: Column(
         children: [
@@ -79,34 +75,42 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
           SizedBox(height: 30),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Informasi Pribadi'),
-            onTap: () {
-              Navigator.pushNamed(context,
-                  '/informasi'); // Navigasi bisa ditambahkan di sini jika perlu
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.history),
-            title: Text('Riwayat Pemesanan'),
-            onTap: () {
-              Navigator.pushNamed(context,
-                  '/riwayat'); // Navigasi otomatis diatur di Navbar menggunakan BottomNavigationBar
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.store),
-            title: Text('Kelola Produk'),
-            onTap: () {
-              // Navigasi bisa ditambahkan di sini jika perlu
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('Informasi Pribadi'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/informasi');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.history),
+                  title: Text('Riwayat Pemesanan'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/riwayat');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.store),
+                  title: Text('Kelola Produk'),
+                  onTap: () {
+                    // Navigasi bisa ditambahkan di sini jika perlu
+                  },
+                ),
+              ],
+            ),
           ),
           Spacer(),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
-            onTap: _logout, // Logout logic menggunakan AuthService
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: _logout, // Logout logic menggunakan AuthService
+            ),
           ),
           SizedBox(height: 20),
         ],
