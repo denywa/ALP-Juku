@@ -15,7 +15,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  int _currentIndex = 0; // Indeks halaman yang sedang aktif
+  int _currentIndex = 3; // Indeks halaman yang sedang aktif
 
   // Daftar halaman yang akan dipilih berdasarkan indeks
   final List<Widget> _screens = [

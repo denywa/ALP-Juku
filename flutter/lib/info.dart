@@ -53,7 +53,7 @@ class InformasiScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Informasi Pribadi"),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

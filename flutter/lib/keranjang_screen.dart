@@ -11,7 +11,7 @@ class KeranjangScreen extends StatefulWidget {
 }
 
 class _KeranjangScreenState extends State<KeranjangScreen> {
-    int _currentIndex = 0; // Indeks halaman yang sedang aktif
+    int _currentIndex = 2; // Indeks halaman yang sedang aktif
 
   // Daftar halaman yang akan dipilih berdasarkan indeks
   final List<Widget> _screens = [
@@ -242,8 +242,8 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
         ],
       ),
       bottomNavigationBar: Navbar(
-        currentIndex: _currentIndex, // Tab yang aktif
-        onTap: _onItemTapped, // Menangani perubahan tab
+        currentIndex: _currentIndex, 
+        onTap: _onItemTapped, 
       ),
     );
   }

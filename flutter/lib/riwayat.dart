@@ -12,7 +12,7 @@ class RiwayatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Riwayat Akun'),
+        title: const Text('Riwayat Pemesanan'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,

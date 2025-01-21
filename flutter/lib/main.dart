@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardScreen(),
         '/menu': (context) => Menu.MenuScreen(), // Menggunakan alias Menu
         '/keranjang': (context) => KeranjangScreen(), // Tambahkan rute untuk KeranjangScreen
-        '/pesanan': (context) => const Pesanan.PesananScreen(), // Menggunakan alias Pesanan
+        '/pesanan': (context) => Pesanan.PesananScreen(), // Menggunakan alias Pesanan
         '/informasi': (context) => const InformasiScreen(), // Rute untuk InformasiScreen
         '/riwayat': (context) => const RiwayatScreen(), // Rute untuk RiwayatScreen
       },

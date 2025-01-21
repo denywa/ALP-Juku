@@ -69,7 +69,7 @@ class _LanjutBayarPageState extends State<LanjutBayarPage> {
                 ),
                 SizedBox(height: 8.0), // Space between logo and text
                 Text(
-                  "Lanjut Bayar",
+                  "CHECKOUT",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
