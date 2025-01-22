@@ -52,8 +52,9 @@ class InformasiScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Informasi Pribadi"),
+        title: const Text('Riwayat Pemesanan'),
         backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -78,9 +79,12 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
   bool isEditing = false;
 
   // Controllers for editing text fields
-  final TextEditingController fullNameController = TextEditingController(text: "Felicia Wijaya");
-  final TextEditingController phoneNumberController = TextEditingController(text: "08123456778");
-  final TextEditingController emailController = TextEditingController(text: "tes@gmail.com");
+  final TextEditingController fullNameController =
+      TextEditingController(text: "Felicia Wijaya");
+  final TextEditingController phoneNumberController =
+      TextEditingController(text: "08123456778");
+  final TextEditingController emailController =
+      TextEditingController(text: "tes@gmail.com");
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +174,8 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
     );
   }
 
-  Widget buildTextField(String label, TextEditingController controller, bool isEnabled) {
+  Widget buildTextField(
+      String label, TextEditingController controller, bool isEnabled) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

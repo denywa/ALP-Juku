@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'registrasi_screen.dart';
 import 'dashboard_screen.dart';
 import 'reset_password_screen.dart';
-import 'auth_service.dart';
+import 'service/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
+  bool _isPasswordVisible = false; // Variable to toggle password visibility
 
   Future<void> _login() async {
     final email = _emailController.text.trim();
@@ -42,12 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const DashboardScreen()),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login berhasil!'),
-            backgroundColor: Colors.green,
-          ),
         );
       } else {
         // Jika token tidak berhasil disimpan
@@ -106,10 +101,23 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 16),
             TextField(
               controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
+              obscureText: !_isPasswordVisible, // Toggle visibility
+              decoration: InputDecoration(
                 labelText: 'Password',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible =
+                          !_isPasswordVisible; // Toggle the state
+                    });
+                  },
+                ),
               ),
             ),
             const SizedBox(height: 10),

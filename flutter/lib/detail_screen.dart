@@ -19,6 +19,8 @@ class DetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(productName),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
       ),
       body: Stack(
         children: [
@@ -88,7 +90,8 @@ class DetailScreen extends StatelessWidget {
                     children: [
                       const Text(
                         'Penilaian Produk',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 16),
                       Row(

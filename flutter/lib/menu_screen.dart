@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:apk/auth_service.dart'; // Import AuthService
+import 'package:apk/service/auth_service.dart'; // Import AuthService
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -49,13 +49,34 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.network(
-          'https://via.placeholder.com/50', // Ganti dengan URL gambar logo
-          height: 50,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(140),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Image.asset(
+                    'assets/logo.png', // Ganti dengan URL gambar logo
+                    height: 50,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  "MENU",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
       body: Column(

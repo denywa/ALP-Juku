@@ -87,27 +87,31 @@ class Navbar extends StatelessWidget {
   void _navigateToScreen(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => DashboardScreen()),
+          (route) => false, // Menghapus semua route sebelumnya
         );
         break;
       case 1:
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => pesanan_screen.PesananScreen()),
+          (route) => false, // Menghapus semua route sebelumnya
         );
         break;
       case 2:
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => keranjang_screen.KeranjangScreen()),
+          (route) => false, // Menghapus semua route sebelumnya
         );
         break;
       case 3:
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => menu_screen.MenuScreen()),
+          (route) => false, // Menghapus semua route sebelumnya
         );
         break;
       default:
