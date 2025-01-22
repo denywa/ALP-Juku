@@ -3,7 +3,6 @@ import 'navbar.dart'; // Pastikan Navbar diimpor dengan benar
 import 'package:apk/pesanan_screen.dart';
 import 'package:apk/keranjang_screen.dart';
 import 'package:apk/dashboard_screen.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';

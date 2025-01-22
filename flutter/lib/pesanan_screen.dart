@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'lanjutbelanja.dart';
 import 'navbar.dart';
-import 'pesanan_screen.dart';
 import 'menu_screen.dart';
 import 'dashboard_screen.dart';
 import 'keranjang_screen.dart';
@@ -113,79 +112,94 @@ class _PesananScreenState extends State<PesananScreen> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '18 Jan 2024',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: index == 0
-                                      ? Colors.blue[100]
-                                      : index == 1
-                                          ? Colors.orange[100]
-                                          : Colors.green[100],
-                                  borderRadius: BorderRadius.circular(12),
+                              Text(
+                                '18 Jan 2024',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: index == 0
+                                          ? Colors.blue[100]
+                                          : index == 1
+                                              ? Colors.orange[100]
+                                              : Colors.green[100],
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Text(
+                                      index == 0
+                                          ? 'Dalam Pengiriman'
+                                          : index == 1
+                                              ? 'Sedang Dikemas'
+                                              : 'Sudah di Destinasi',
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/nilahitam.png',
+                                height: 64,
+                                width: 64,
+                              ),
+                              SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(item.subtitle),
+                                    SizedBox(height: 4),
+                                    Text(index == 0
+                                        ? '2 pc'
+                                        : index == 1
+                                            ? '4 pc'
+                                            : '1 pc'),
+                                  ],
                                 ),
-                                child: Text(
-                                  index == 0
-                                      ? 'Dalam Pengiriman'
-                                      : index == 1
-                                          ? 'Sedang Dikemas'
-                                          : 'Sudah di Destinasi',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                              ),
+                              Text(
+                                item.price,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                             ],
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/nilahitam.png',
-                            height: 64,
-                            width: 64,
+                      Positioned(
+                        bottom: 8,
+                        right: 8,
+                        child: Text(
+                          'Estimasi: 10 menit 1 jam',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
                           ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.title,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 4),
-                                Text(item.subtitle),
-                                SizedBox(height: 4),
-                                Text(index == 0
-                                    ? '2 pc'
-                                    : index == 1
-                                        ? '4 pc'
-                                        : '1 pc'),
-                              ],
-                            ),
-                          ),
-                          Text(
-                            item.price,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
