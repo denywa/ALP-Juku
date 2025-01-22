@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -9,6 +11,60 @@ class ResetPasswordScreen extends StatefulWidget {
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   bool _isPasswordVisible = false; // Untuk toggle visibility password baru
+  bool _isPasswordConfirmationVisible =
+      false; // Untuk toggle visibility password konfirmasi
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  Future<void> _resetPassword() async {
+    final email = _emailController.text.trim();
+    final phone = _phoneController.text.trim();
+    final newPassword = _newPasswordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (newPassword != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password baru dan konfirmasi tidak cocok!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:8000/api/reset-password'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+        'phone': phone,
+        'password': newPassword,
+        'password_confirmation': confirmPassword,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password berhasil direset!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pop(context); // Kembali ke layar sebelumnya
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Terjadi kesalahan saat mereset password.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +95,26 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 20),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(
                 labelText: 'Email',
                 hintText: 'Email',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
-            const TextField(
-              decoration: InputDecoration(
-                labelText: 'Username',
-                hintText: 'Username',
+            TextField(
+              controller: _phoneController,
+              decoration: const InputDecoration(
+                labelText: 'Phone Number',
+                hintText: 'Phone Number',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             TextField(
+              controller: _newPasswordController,
               obscureText: !_isPasswordVisible,
               decoration: InputDecoration(
                 labelText: 'Password Baru',
@@ -75,11 +134,32 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _confirmPasswordController,
+              obscureText: !_isPasswordConfirmationVisible,
+              decoration: InputDecoration(
+                labelText: 'Konfirmasi Password',
+                hintText: 'Konfirmasi Password',
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordConfirmationVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordConfirmationVisible =
+                          !_isPasswordConfirmationVisible;
+                    });
+                  },
+                ),
+              ),
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Tambahkan logika untuk reset password di sini
-              },
+              onPressed: _resetPassword,
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
                 backgroundColor: Colors.blue,

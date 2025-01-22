@@ -40,9 +40,10 @@ class _MenuScreenState extends State<MenuScreen> {
     final authService = AuthService();
     await authService.logout(); // Menggunakan AuthService untuk logout
 
-    Navigator.pushReplacement(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => LoginScreen()),
+      (Route<dynamic> route) => false, // Menghapus semua route sebelumnya
     );
   }
 

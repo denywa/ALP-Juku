@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'service/user_service.dart';
+import 'service/user_model.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -9,7 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp( 
       title: 'Informasi Pribadi',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -32,7 +37,6 @@ class MenuScreen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Menavigasi ke InformasiScreen
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const InformasiScreen()),
@@ -57,7 +61,6 @@ class InformasiScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Kembali ke MenuScreen
             Navigator.pop(context);
           },
         ),
@@ -76,14 +79,133 @@ class InformasiPribadiPage extends StatefulWidget {
 
 class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
   bool isEditing = false;
+  bool isLoading = true;
+  File? _image;
+  UserModel? userData;
+  final ImagePicker _picker = ImagePicker();
+  final UserService _userService = UserService();
 
-  // Controllers for editing text fields
-  final TextEditingController fullNameController = TextEditingController(text: "Felicia Wijaya");
-  final TextEditingController phoneNumberController = TextEditingController(text: "08123456778");
-  final TextEditingController emailController = TextEditingController(text: "tes@gmail.com");
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final user = await _userService.getCurrentUser();
+      if (user != null) {
+        setState(() {
+          userData = user;
+          fullNameController.text = user.name;
+          phoneNumberController.text = user.phone ?? '';
+          emailController.text = user.email;
+          // No need to set _image here, it's for local changes only
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gagal memuat data pengguna')),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(source: source);
+      if (pickedFile != null) {
+        setState(() {
+          _image = File(pickedFile.path);
+        });
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+    }
+  }
+
+  void _showImageSourceDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Pilih Sumber Gambar'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Galeri'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _pickImage(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _saveChanges() async {
+    if (_image != null) {
+      // Upload the new image
+      final imageUrl = await _userService.uploadImage(_image!);
+      if (imageUrl != null) {
+        setState(() {
+          userData = UserModel(
+            userID: userData!.userID,
+            name: fullNameController.text,
+            email: emailController.text,
+            phone: phoneNumberController.text,
+            image: imageUrl, // Update the image URL
+            role: userData!.role,
+          );
+        });
+      }
+    }
+
+    // Update other user data
+    final updatedUser = await _userService.updateUser(
+      userData!.userID,
+      fullNameController.text,
+      phoneNumberController.text,
+      emailController.text,
+    );
+
+    if (updatedUser != null) {
+      setState(() {
+        userData = updatedUser;
+        isEditing = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profil berhasil diperbarui')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gagal memperbarui profil')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Card(
@@ -98,14 +220,50 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
             children: [
               Row(
                 children: [
-                  const Icon(
-                    Icons.account_circle,
-                    size: 50,
+                  GestureDetector(
+                    onTap: isEditing ? _showImageSourceDialog : null,
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundImage: _image != null
+                              ? FileImage(_image!)
+                              : (userData?.image != null &&
+                                      userData!.image!.isNotEmpty)
+                                  ? NetworkImage(userData!.image!)
+                                  : const AssetImage(
+                                          'assets/images/default_profile.jpg')
+                                      as ImageProvider,
+                          child: (_image == null &&
+                                  (userData?.image == null ||
+                                      userData!.image!.isEmpty))
+                              ? const Icon(Icons.account_circle, size: 50)
+                              : null,
+                        ),
+                        if (isEditing)
+                          Positioned(
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 16),
-                  const Text(
-                    'Felicia',
-                    style: TextStyle(
+                  Text(
+                    userData?.name ?? '',
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -116,6 +274,12 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
                     onPressed: () {
                       setState(() {
                         isEditing = !isEditing;
+                        if (!isEditing) {
+                          fullNameController.text = userData?.name ?? '';
+                          phoneNumberController.text = userData?.phone ?? '';
+                          emailController.text = userData?.email ?? '';
+                          _image = null; // Reset the image
+                        }
                       });
                     },
                   ),
@@ -144,6 +308,8 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
                       onPressed: () {
                         setState(() {
                           isEditing = false;
+                          _loadUserData();
+                          _image = null; // Reset the image
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -153,11 +319,7 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isEditing = false;
-                        });
-                      },
+                      onPressed: _saveChanges,
                       child: const Text('Simpan'),
                     ),
                   ],
@@ -170,7 +332,8 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
     );
   }
 
-  Widget buildTextField(String label, TextEditingController controller, bool isEnabled) {
+  Widget buildTextField(
+      String label, TextEditingController controller, bool isEnabled) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
