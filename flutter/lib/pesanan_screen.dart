@@ -55,7 +55,7 @@ class _PesananScreenState extends State<PesananScreen> {
           backgroundColor: Colors.white,
           elevation: 0,
           flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: const EdgeInsets.only(top: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -125,7 +125,8 @@ class _PesananScreenState extends State<PesananScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: index == 0
                                       ? Colors.blue[100]
@@ -162,7 +163,9 @@ class _PesananScreenState extends State<PesananScreen> {
                               children: [
                                 Text(
                                   item.title,
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: 4),
                                 Text(item.subtitle),
@@ -177,7 +180,8 @@ class _PesananScreenState extends State<PesananScreen> {
                           ),
                           Text(
                             item.price,
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                         ],
                       ),

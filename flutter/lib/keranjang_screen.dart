@@ -149,7 +149,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
           backgroundColor: Colors.white,
           elevation: 0,
           flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: const EdgeInsets.only(top:10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

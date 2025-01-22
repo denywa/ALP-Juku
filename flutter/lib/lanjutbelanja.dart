@@ -8,10 +8,12 @@ class LanjutBayarPage extends StatefulWidget {
 
 class _LanjutBayarPageState extends State<LanjutBayarPage> {
   String? selectedPaymentMethod;
-  String address = "Felicia | (+62) 812-345-6778\nUniversitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar";
+  String address =
+      "Felicia | (+62) 812-345-6778\nUniversitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar";
 
   void _showChangeAddressDialog() {
-    TextEditingController addressController = TextEditingController(text: address);
+    TextEditingController addressController =
+        TextEditingController(text: address);
 
     showDialog(
       context: context,
@@ -51,34 +53,15 @@ class _LanjutBayarPageState extends State<LanjutBayarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(140), // Same height as the "KERANJANG" page
-        child: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Image.asset(
-                    'assets/logo.png', // Replace with your logo asset
-                    height: 50,
-                  ),
-                ),
-                SizedBox(height: 8.0), // Space between logo and text
-                Text(
-                  "CHECKOUT",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
+      appBar: AppBar(
+        title: const Text("CHECKOUT"),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Kembali ke MenuScreen
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -254,8 +237,8 @@ class _LanjutBayarPageState extends State<LanjutBayarPage> {
                   Expanded(
                     child: Text(
                       "Total Bayar",
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
@@ -268,33 +251,33 @@ class _LanjutBayarPageState extends State<LanjutBayarPage> {
                 ],
               ),
               SizedBox(height: 16),
-Align(
-  alignment: Alignment.centerRight,
-  child: ElevatedButton(
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BayarBerhasil(),
-        ),
-      );
-    },
-    child: Text(
-      "Bayar",
-      style: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blue,
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12)),
-    ),
-  ),
-),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BayarBerhasil(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Bayar",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
