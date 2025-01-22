@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'detail_screen.dart'; // Pastikan file detail_screen.dart ada
 import 'menu_screen.dart';
-import 'navbar.dart'; // Pastikan ini adalah file yang mendefinisikan Navbar di main.dart
+import 'navbar.dart'; // Pastikan ini adalah file yang mendefinisikan Navbar di main.
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -77,15 +77,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
               child: Card(
                 elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(12.0), // Improved border radius
+                ),
                 child: Column(
                   children: [
                     Expanded(
-                      child: Image.asset(
-                        'assets/sample_fish.png',
-                        fit: BoxFit.cover,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(
+                                12.0)), // Match the card's border radius
+                        child: Image.asset(
+                          'assets/sample_fish.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 8),
+                    const Divider(
+                        thickness: 1, color: Colors.grey), // Garis pembatas
                     const Text(
                       'Ikan Nila',
                       style: TextStyle(fontWeight: FontWeight.bold),
@@ -143,7 +154,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           backgroundColor: Colors.white,
           elevation: 0,
           flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: const EdgeInsets.only(top: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

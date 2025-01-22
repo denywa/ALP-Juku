@@ -8,10 +8,12 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   String? selectedPaymentMethod;
-  String address = "Felicia | (+62) 812-345-6778\nUniversitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar";
+  String address =
+      "Felicia | (+62) 812-345-6778\nUniversitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar";
 
   void _showChangeAddressDialog() {
-    TextEditingController addressController = TextEditingController(text: address);
+    TextEditingController addressController =
+        TextEditingController(text: address);
 
     showDialog(
       context: context,
@@ -51,34 +53,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(140), // Same height as the "KERANJANG" page
-        child: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Image.asset(
-                    'assets/logo.png', // Replace with your logo asset
-                    height: 50,
-                  ),
-                ),
-                SizedBox(height: 8.0), // Space between logo and text
-                Text(
-                  "CHECKOUT",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
+      appBar: AppBar(
+        title: const Text("CHECKOUT"),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Kembali ke MenuScreen
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -87,10 +70,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Address Section
               Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
+                  color: Colors.white, // Set background color to white
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -142,7 +125,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
-                        'assets/nilahitam.png', // Replace with your product image path
+                        'assets/nilahitam.png',
                         height: 60,
                         width: 60,
                         fit: BoxFit.cover,
@@ -254,8 +237,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   Expanded(
                     child: Text(
                       "Total Bayar",
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Text(
@@ -268,33 +251,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ],
               ),
               SizedBox(height: 16),
-Align(
-  alignment: Alignment.centerRight,
-  child: ElevatedButton(
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BayarBerhasil(),
-        ),
-      );
-    },
-    child: Text(
-      "Bayar",
-      style: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.blue,
-      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12)),
-    ),
-  ),
-),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BayarBerhasil(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Bayar",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
