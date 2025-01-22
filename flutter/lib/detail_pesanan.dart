@@ -11,6 +11,7 @@ class DetailPesananPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail Pesanan'),
+        surfaceTintColor: Colors.white, // Important for Material 3
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -185,55 +186,57 @@ class DetailPesananPage extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Store Profile Card
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/profilTambakPage');
-                },
-                child: Card(
-                  elevation: 0,
-                  color: Colors.grey[200],
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage('assets/tambak.png'), // Replace with your store profile image path
-                            ),
-                            const SizedBox(width: 16),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text(
-                                  'Tambak Ikan A',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/profilTambakPage');
+              },
+              child: Card(
+                elevation: 0,
+                color: Colors.grey[200],
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage(
+                                'assets/tambak.png'), // Replace with your store profile image path
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Tambak Ikan A',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  'Tambak ikan nila',
-                                  style: TextStyle(fontSize: 14, color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                          color: Colors.grey,
-                        ),
-                      ],
-                    ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Tambak ikan nila',
+                                style:
+                                    TextStyle(fontSize: 14, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

@@ -8,6 +8,7 @@ class ProfilTambakPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil Toko'),
+        surfaceTintColor: Colors.white, // Important for Material 3
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -15,10 +15,10 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048', // Validasi gambar
-            'phone' => 'required|numeric|digits:10,15', // Validasi nomor telepon minimal 10 dan maksimal 15
+            'phone' => 'required|numeric|digits_between:10,15', // Validasi nomor telepon minimal 10 dan maksimal 15
         ]);
 
         if ($validator->fails()) {
@@ -84,6 +84,7 @@ class AuthController extends Controller
         // Validasi input
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
+            'phone' => 'required|numeric|digits_between:10,15|exists:users,phone', // Tambahkan validasi untuk phone number
             'password' => 'required|string|min:8|confirmed', // validator confirmed untuk field password_confirmation, jadi ada field password dan password_confirmation
         ]);
 
@@ -91,8 +92,16 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        // Cari user berdasarkan email
-        $user = User::where('email', $request->email)->first();
+        // Cari user berdasarkan email dan phone number
+        $user = User::where('email', $request->email)
+            ->where('phone', $request->phone) // Cek juga phone number
+            ->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found or phone number does not match',
+            ], 404);
+        }
 
         // cek password inputnya sama dengan pass lama 
         if (Hash::check($request->password, $user->password)) {

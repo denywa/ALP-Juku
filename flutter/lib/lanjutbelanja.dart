@@ -56,6 +56,8 @@ class _LanjutBayarPageState extends State<LanjutBayarPage> {
       appBar: AppBar(
         title: const Text("CHECKOUT"),
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white, // Important for Material 3
+
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

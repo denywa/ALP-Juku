@@ -36,7 +36,7 @@ class _RegistrasiScreenState extends State<RegistrasiScreen> {
         );
 
         final response = await http.post(
-          Uri.parse('http://192.168.152.149:8000/api/register'),
+          Uri.parse('http://127.0.0.1:8000/api/register'),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -148,6 +148,8 @@ class _RegistrasiScreenState extends State<RegistrasiScreen> {
         ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        surfaceTintColor: Colors.white, // Important for Material 3
+
         elevation: 0,
       ),
       body: SingleChildScrollView(

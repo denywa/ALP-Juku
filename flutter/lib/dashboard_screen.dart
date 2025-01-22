@@ -17,6 +17,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
 
+
   @override
   void initState() {
     super.initState();
