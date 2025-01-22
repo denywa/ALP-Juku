@@ -18,7 +18,7 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double navbarHeight = MediaQuery.of(context).size.height * 0.08 + 25;
+    final double navbarHeight = MediaQuery.of(context).size.height * 0.06 + 20;
 
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,

@@ -141,6 +141,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           'Akun Saya',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        const SizedBox(height: 20),
+        TextField(
+          decoration: InputDecoration(
+            hintText: 'Password',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+        ),
       ],
     ),
   ];
@@ -152,6 +161,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         preferredSize: const Size.fromHeight(140),
         child: AppBar(
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white, // Important for Material 3
           elevation: 0,
           flexibleSpace: Padding(
             padding: const EdgeInsets.only(top: 10.0),

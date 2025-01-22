@@ -11,7 +11,7 @@ class KeranjangScreen extends StatefulWidget {
 }
 
 class _KeranjangScreenState extends State<KeranjangScreen> {
-    int _currentIndex = 2; // Indeks halaman yang sedang aktif
+  int _currentIndex = 2; // Indeks halaman yang sedang aktif
 
   // Daftar halaman yang akan dipilih berdasarkan indeks
   final List<Widget> _screens = [
@@ -31,7 +31,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
       _currentIndex = index;
     });
   }
-  
+
   List<CartItem> cartItems = [
     CartItem(
       itemNumber: 1,
@@ -68,7 +68,7 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
     });
   }
 
-  void navigateToShop() { 
+  void navigateToShop() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -92,7 +92,8 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
             padding: EdgeInsets.all(16),
             child: Column(
               children: [
-                Image.asset(item.imageUrl, width: 100, height: 100, fit: BoxFit.cover),
+                Image.asset(item.imageUrl,
+                    width: 100, height: 100, fit: BoxFit.cover),
                 SizedBox(height: 16),
                 Text(
                   item.title,
@@ -128,7 +129,8 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                     minimumSize: Size(double.infinity, 50),
                   ),
                 ),
@@ -147,9 +149,11 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
         preferredSize: Size.fromHeight(140),
         child: AppBar(
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white, // Important for Material 3
+
           elevation: 0,
           flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top:10.0),
+            padding: const EdgeInsets.only(top: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -176,7 +180,8 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0)
+                .copyWith(top: 16.0),
             child: Row(
               children: [
                 Checkbox(
@@ -221,18 +226,21 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LanjutBayarPage(), // Navigate to LanjutBayarPage
+                        builder: (context) =>
+                            LanjutBayarPage(), // Navigate to LanjutBayarPage
                       ),
                     );
                   },
                   child: Text(
                     "Checkout",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                     minimumSize: Size(double.infinity, 50),
                   ),
                 ),
@@ -242,8 +250,8 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
         ],
       ),
       bottomNavigationBar: Navbar(
-        currentIndex: _currentIndex, 
-        onTap: _onItemTapped, 
+        currentIndex: _currentIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
@@ -305,16 +313,19 @@ class _StatefulCartItemState extends State<StatefulCartItem> {
             Expanded(
               child: Row(
                 children: [
-                  Image.asset(widget.cartItem.imageUrl, width: 80, height: 80, fit: BoxFit.cover),
+                  Image.asset(widget.cartItem.imageUrl,
+                      width: 80, height: 80, fit: BoxFit.cover),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${widget.cartItem.itemNumber}. ${widget.cartItem.title}",
+                        Text(
+                            "${widget.cartItem.itemNumber}. ${widget.cartItem.title}",
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         Text(widget.cartItem.subtitle),
-                        Text(widget.cartItem.quantity, style: TextStyle(color: Colors.grey)),
+                        Text(widget.cartItem.quantity,
+                            style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                   ),
@@ -335,7 +346,8 @@ class _StatefulCartItemState extends State<StatefulCartItem> {
                         ],
                       ),
                       SizedBox(height: 8),
-                      Text(widget.cartItem.price, style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(widget.cartItem.price,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ],
@@ -369,14 +381,16 @@ class _HoverableCardState extends State<HoverableCard> {
         onExit: (_) => setState(() => isHovered = false),
         child: Card(
           elevation: 6,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           color: Colors.blue,
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Center(
               child: Text(
                 "Lanjut Belanja",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -403,4 +417,3 @@ class QuantityOption extends StatelessWidget {
     );
   }
 }
-

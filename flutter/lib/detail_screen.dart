@@ -19,6 +19,7 @@ class DetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(productName),
+        surfaceTintColor: Colors.white, // Important for Material 3
       ),
       body: Stack(
         children: [
@@ -28,39 +29,47 @@ class DetailScreen extends StatelessWidget {
               // Product Image and Price
               Card(
                 elevation: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      productImage,
-                      fit: BoxFit.cover,
-                      height: 200,
-                      width: double.infinity,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            productName,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            productPrice,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 2, 202, 224),
-                            ),
-                          ),
-                        ],
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(12), // Improved card radius
+                ),
+                child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(12), // Improved image radius
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        productImage,
+                        fit: BoxFit.cover,
+                        height: 200,
+                        width: double.infinity,
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              productName,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              productPrice,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromARGB(255, 2, 202, 224),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -81,7 +90,8 @@ class DetailScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage('assets/tambak.png'), // Replace with your store profile image path
+                              backgroundImage: AssetImage(
+                                  'assets/tambak.png'), // Replace with your store profile image path
                             ),
                             const SizedBox(width: 16),
                             Column(
@@ -97,7 +107,8 @@ class DetailScreen extends StatelessWidget {
                                 SizedBox(height: 4),
                                 Text(
                                   'Tambak ikan nila',
-                                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -138,7 +149,8 @@ class DetailScreen extends StatelessWidget {
                     children: [
                       const Text(
                         'Penilaian Produk',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -155,7 +167,8 @@ class DetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 80), // Extra padding to prevent overlap with buttons
+              const SizedBox(
+                  height: 80), // Extra padding to prevent overlap with buttons
             ],
           ),
           // Floating Action Buttons for Add to Cart and Buy Now

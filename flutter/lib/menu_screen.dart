@@ -8,6 +8,8 @@ import 'dart:convert';
 import 'login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:apk/service/auth_service.dart'; // Import AuthService
+import 'package:apk/service/user_service.dart'; // Import UserService
+import 'package:apk/service/user_model.dart'; // Import UserModel
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   int _currentIndex = 3; // Indeks halaman yang sedang aktif
+  UserModel? userData; // Variable to store user data
 
   // Daftar halaman yang akan dipilih berdasarkan indeks
   final List<Widget> _screens = [
@@ -28,6 +31,18 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     super.initState();
+    _loadUserData(); // Load user data on initialization
+  }
+
+  void _loadUserData() {
+    final userService = UserService();
+    userService.getCurrentUser().then((user) {
+      if (user != null) {
+        setState(() {
+          userData = user;
+        });
+      }
+    });
   }
 
   void _onItemTapped(int index) {
@@ -54,6 +69,8 @@ class _MenuScreenState extends State<MenuScreen> {
         preferredSize: const Size.fromHeight(140),
         child: AppBar(
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white, // Important for Material 3
+
           elevation: 0,
           flexibleSpace: Padding(
             padding: const EdgeInsets.only(top: 10.0),
@@ -86,15 +103,42 @@ class _MenuScreenState extends State<MenuScreen> {
           CircleAvatar(
             radius: 50,
             backgroundColor: Colors.grey.shade300,
-            child: Icon(
-              Icons.person,
-              size: 60,
-              color: Colors.black,
+            child: ClipOval(
+              child: userData?.image != null
+                  ? Image.network(
+                      userData!.image!,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.person,
+                          size: 60,
+                          color: Colors.black,
+                        );
+                      },
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        );
+                      },
+                    )
+                  : Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Colors.black,
+                    ),
             ),
           ),
           SizedBox(height: 10),
           Text(
-            'Felicia',
+            userData?.name ?? '',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

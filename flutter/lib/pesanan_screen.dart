@@ -53,6 +53,8 @@ class _PesananScreenState extends State<PesananScreen> {
         preferredSize: Size.fromHeight(140),
         child: AppBar(
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white, // Important for Material 3
+
           elevation: 0,
           flexibleSpace: Padding(
             padding: const EdgeInsets.only(top: 10.0),

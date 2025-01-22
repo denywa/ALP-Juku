@@ -78,6 +78,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        surfaceTintColor: Colors.white, // Important for Material 3
         elevation: 0,
       ),
       body: SingleChildScrollView(

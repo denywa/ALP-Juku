@@ -3,18 +3,13 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'service/user_service.dart';
 import 'service/user_model.dart';
-import 'package:http/http.dart' as http;
-
-void main() {
-  runApp(const MyApp());
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp( 
+    return MaterialApp(
       title: 'Informasi Pribadi',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -58,6 +53,8 @@ class InformasiScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Informasi Pribadi"),
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white, // Important for Material 3
+
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -108,10 +105,10 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
           fullNameController.text = user.name;
           phoneNumberController.text = user.phone ?? '';
           emailController.text = user.email;
-          // No need to set _image here, it's for local changes only
         });
       }
     } catch (e) {
+      // Handle error - show snackbar or dialog
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Gagal memuat data pengguna')),
       );
@@ -159,47 +156,6 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
     );
   }
 
-  Future<void> _saveChanges() async {
-    if (_image != null) {
-      // Upload the new image
-      final imageUrl = await _userService.uploadImage(_image!);
-      if (imageUrl != null) {
-        setState(() {
-          userData = UserModel(
-            userID: userData!.userID,
-            name: fullNameController.text,
-            email: emailController.text,
-            phone: phoneNumberController.text,
-            image: imageUrl, // Update the image URL
-            role: userData!.role,
-          );
-        });
-      }
-    }
-
-    // Update other user data
-    final updatedUser = await _userService.updateUser(
-      userData!.userID,
-      fullNameController.text,
-      phoneNumberController.text,
-      emailController.text,
-    );
-
-    if (updatedUser != null) {
-      setState(() {
-        userData = updatedUser;
-        isEditing = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profil berhasil diperbarui')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Gagal memperbarui profil')),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -226,19 +182,31 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
                       children: [
                         CircleAvatar(
                           radius: 25,
-                          backgroundImage: _image != null
-                              ? FileImage(_image!)
-                              : (userData?.image != null &&
-                                      userData!.image!.isNotEmpty)
-                                  ? NetworkImage(userData!.image!)
-                                  : const AssetImage(
-                                          'assets/images/default_profile.jpg')
-                                      as ImageProvider,
-                          child: (_image == null &&
-                                  (userData?.image == null ||
-                                      userData!.image!.isEmpty))
-                              ? const Icon(Icons.account_circle, size: 50)
-                              : null,
+                          child: _image != null
+                              ? ClipOval(
+                                  child: Image.file(
+                                    _image!,
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : (userData?.image != null
+                                  ? ClipOval(
+                                      child: Image.network(
+                                        userData!.image!,
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return const Icon(
+                                              Icons.account_circle,
+                                              size: 50);
+                                        },
+                                      ),
+                                    )
+                                  : const Icon(Icons.account_circle, size: 50)),
                         ),
                         if (isEditing)
                           Positioned(
@@ -275,10 +243,10 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
                       setState(() {
                         isEditing = !isEditing;
                         if (!isEditing) {
+                          // Reset controllers to original data if canceling
                           fullNameController.text = userData?.name ?? '';
                           phoneNumberController.text = userData?.phone ?? '';
                           emailController.text = userData?.email ?? '';
-                          _image = null; // Reset the image
                         }
                       });
                     },
@@ -308,8 +276,8 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
                       onPressed: () {
                         setState(() {
                           isEditing = false;
+                          // Reset data to original values
                           _loadUserData();
-                          _image = null; // Reset the image
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -319,7 +287,12 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton(
-                      onPressed: _saveChanges,
+                      onPressed: () {
+                        // TODO: Implement save functionality
+                        setState(() {
+                          isEditing = false;
+                        });
+                      },
                       child: const Text('Simpan'),
                     ),
                   ],

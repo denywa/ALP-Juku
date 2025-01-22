@@ -9,15 +9,21 @@ class EditProfilTambakPage extends StatefulWidget {
 
 class _EditProfilTambakPageState extends State<EditProfilTambakPage> {
   bool isEditing = false;
-  final TextEditingController alamatController = TextEditingController(text: 'Universitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar');
-  final TextEditingController kontakController = TextEditingController(text: '+62 081288888888');
-  final TextEditingController deskripsiController = TextEditingController(text: 'Tambak ikan yang menjual ikan segar, terutama ikan bolu. Untuk pertanyaan lebih lanjut bisa chat lewat kontak');
+  final TextEditingController alamatController = TextEditingController(
+      text:
+          'Universitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar');
+  final TextEditingController kontakController =
+      TextEditingController(text: '+62 081288888888');
+  final TextEditingController deskripsiController = TextEditingController(
+      text:
+          'Tambak ikan yang menjual ikan segar, terutama ikan bolu. Untuk pertanyaan lebih lanjut bisa chat lewat kontak');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil Toko'),
+        surfaceTintColor: Colors.white, // Important for Material 3
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
