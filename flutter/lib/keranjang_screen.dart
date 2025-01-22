@@ -287,61 +287,64 @@ class StatefulCartItem extends StatefulWidget {
 class _StatefulCartItemState extends State<StatefulCartItem> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      margin: EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Checkbox(
-              value: widget.cartItem.isSelected,
-              onChanged: (value) {
-                setState(() {
-                  widget.cartItem.isSelected = value ?? false;
-                });
-              },
-            ),
-            Expanded(
-              child: Row(
-                children: [
-                  Image.asset(widget.cartItem.imageUrl, width: 80, height: 80, fit: BoxFit.cover),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("${widget.cartItem.itemNumber}. ${widget.cartItem.title}",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text(widget.cartItem.subtitle),
-                        Text(widget.cartItem.quantity, style: TextStyle(color: Colors.grey)),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      PopupMenuButton<String>(
-                        onSelected: (value) {
-                          if (value == "Hapus") {
-                            widget.onRemove();
-                          } else if (value == "Detail") {
-                            widget.onDetail();
-                          }
-                        },
-                        itemBuilder: (context) => [
-                          PopupMenuItem(value: "Hapus", child: Text("Hapus")),
-                          PopupMenuItem(value: "Detail", child: Text("Detail")),
+    return GestureDetector(
+      onTap: widget.onDetail, // Trigger the detail popup when the card is tapped
+      child: Card(
+        elevation: 4,
+        margin: EdgeInsets.only(bottom: 16),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Checkbox(
+                value: widget.cartItem.isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    widget.cartItem.isSelected = value ?? false;
+                  });
+                },
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Image.asset(widget.cartItem.imageUrl, width: 80, height: 80, fit: BoxFit.cover),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("${widget.cartItem.itemNumber}. ${widget.cartItem.title}",
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(widget.cartItem.subtitle),
+                          Text(widget.cartItem.quantity, style: TextStyle(color: Colors.grey)),
                         ],
                       ),
-                      SizedBox(height: 8),
-                      Text(widget.cartItem.price, style: TextStyle(fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        PopupMenuButton<String>(
+                          onSelected: (value) {
+                            if (value == "Hapus") {
+                              widget.onRemove();
+                            } else if (value == "Detail") {
+                              widget.onDetail();
+                            }
+                          },
+                          itemBuilder: (context) => [
+                            PopupMenuItem(value: "Hapus", child: Text("Hapus")),
+                            PopupMenuItem(value: "Detail", child: Text("Detail")),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        Text(widget.cartItem.price, style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -360,30 +363,32 @@ class HoverableCard extends StatefulWidget {
 class _HoverableCardState extends State<HoverableCard> {
   bool isHovered = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: MouseRegion(
-        onEnter: (_) => setState(() => isHovered = true),
-        onExit: (_) => setState(() => isHovered = false),
-        child: Card(
-          elevation: 6,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          color: Colors.blue,
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(
-              child: Text(
-                "Lanjut Belanja",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
+@override
+Widget build(BuildContext context) {
+  return MouseRegion(
+    onEnter: (_) => setState(() => isHovered = true),
+    onExit: (_) => setState(() => isHovered = false),
+    child: ElevatedButton(
+      onPressed: widget.onTap,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blue,
+        padding: EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        minimumSize: Size(double.infinity, 50),
+      ),
+      child: Text(
+        "Lanjut Belanja",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 class QuantityOption extends StatelessWidget {
@@ -403,4 +408,3 @@ class QuantityOption extends StatelessWidget {
     );
   }
 }
-
