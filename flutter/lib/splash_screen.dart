@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Menunggu 3 detik sebelum berpindah ke halaman login
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacementNamed(context, '/dashboard');
     });
   }
@@ -25,10 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage(
-                  'assets/FISH.png'), // Gambar logo atau ikon aplikasi
+            ClipRRect(
+              borderRadius:
+                  BorderRadius.circular(30), // Optional: Add border radius
+              child: Image.asset(
+                'assets/logo.png',
+                width: 120, // Adjust width as needed
+                height: 120, // Adjust height as needed
+                fit: BoxFit.cover, // Adjust fit as needed
+              ),
             ),
             const SizedBox(height: 20),
             const Text(

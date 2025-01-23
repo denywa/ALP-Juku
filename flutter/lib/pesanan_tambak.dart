@@ -89,7 +89,8 @@ class _PesananListState extends State<PesananList> {
                 leading: Icon(Icons.local_shipping, color: Colors.blue),
                 title: Text('Dalam Pengiriman'),
                 onTap: () {
-                  updateOrderStatus(index, 'Dalam Pengiriman', Colors.blue[100]!);
+                  updateOrderStatus(
+                      index, 'Dalam Pengiriman', Colors.blue[100]!);
                   Navigator.of(context).pop();
                 },
               ),
@@ -97,7 +98,8 @@ class _PesananListState extends State<PesananList> {
                 leading: Icon(Icons.inventory, color: Colors.orange),
                 title: Text('Sedang Dikemas'),
                 onTap: () {
-                  updateOrderStatus(index, 'Sedang Dikemas', Colors.orange[100]!);
+                  updateOrderStatus(
+                      index, 'Sedang Dikemas', Colors.orange[100]!);
                   Navigator.of(context).pop();
                 },
               ),
@@ -105,7 +107,8 @@ class _PesananListState extends State<PesananList> {
                 leading: Icon(Icons.location_on, color: Colors.green),
                 title: Text('Sudah di Destinasi'),
                 onTap: () {
-                  updateOrderStatus(index, 'Sudah di Destinasi', Colors.green[100]!);
+                  updateOrderStatus(
+                      index, 'Sudah di Destinasi', Colors.green[100]!);
                   Navigator.of(context).pop();
                 },
               ),
@@ -123,110 +126,109 @@ class _PesananListState extends State<PesananList> {
       itemCount: orders.length,
       itemBuilder: (context, index) {
         final order = orders[index];
-        return SizedBox(
-          height: 200,
-          child: Card(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Pesanan ${order['orderId']}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      PopupMenuButton<String>(
-                        onSelected: (String value) {
-                          if (value == 'Detail') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailPesananTambakPage(),
-                              ),
-                            );
-                          } else if (value == 'Status') {
-                            showStatusPopup(context, index);
-                          }
-                        },
-                        itemBuilder: (BuildContext context) {
-                          return [
-                            PopupMenuItem(
-                              value: 'Detail',
-                              child: Text('Detail'),
+        return Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Pesanan ${order['orderId']}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    PopupMenuButton<String>(
+                      onSelected: (String value) {
+                        if (value == 'Detail') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPesananTambakPage(),
                             ),
-                            PopupMenuItem(
-                              value: 'Status',
-                              child: Text('Status'),
-                            ),
-                          ];
-                        },
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        order['date'],
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      Text(
-                        'Estimasi: ${order['estimate']}',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/nilahitam.png',
-                        height: 64,
-                        width: 64,
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              order['fish'],
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 4),
-                            Text(order['quantity']),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        order['price'],
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: order['statusColor'],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        order['status'],
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                          );
+                        } else if (value == 'Status') {
+                          showStatusPopup(context, index);
+                        }
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return [
+                          PopupMenuItem(
+                            value: 'Detail',
+                            child: Text('Detail'),
+                          ),
+                          PopupMenuItem(
+                            value: 'Status',
+                            child: Text('Status'),
+                          ),
+                        ];
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      order['date'],
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    Text(
+                      'Estimasi: ${order['estimate']}',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/nilahitam.png',
+                      height: 64,
+                      width: 64,
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            order['fish'],
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 4),
+                          Text(order['quantity']),
+                        ],
                       ),
                     ),
+                    Text(
+                      order['price'],
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: order['statusColor'],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      order['status'],
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

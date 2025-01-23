@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'checkout.dart';
+import 'toko_tambak.dart';
+import 'keranjang_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final String productName;
   final String productPrice;
-  final String productImage;
+  final String
+      productImage; // This will now be fetched based on the selected product
   final String productDescription;
 
   const DetailScreen({
@@ -59,8 +62,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.asset(
-                        widget.productImage,
+                      Image.network(
+                        widget
+                            .productImage, // Fetching image from the product URL
                         fit: BoxFit.cover,
                         height: 200,
                         width: double.infinity,
@@ -90,7 +94,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               'Rp. ${widget.productPrice} / kg',
                               style: const TextStyle(
                                 fontSize: 18,
-                                color: Color.fromARGB(255, 2, 202, 224),
+                                color: Color.fromARGB(255, 51, 51, 51),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -106,7 +110,10 @@ class _DetailScreenState extends State<DetailScreen> {
               // Store Profile Card
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/profilTambakPage');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TokoTambakPage()),
+                  );
                 },
                 child: Card(
                   elevation: 2,
@@ -258,7 +265,13 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                     child: IconButton(
                       onPressed: () {
-                        // Add to cart logic
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                KeranjangScreen(), // Navigate to KeranjangPage
+                          ),
+                        );
                       },
                       icon:
                           const Icon(Icons.shopping_cart, color: Colors.white),

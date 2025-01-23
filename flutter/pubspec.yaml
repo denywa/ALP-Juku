@@ -59,9 +59,9 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/ #biar semua yang ada di assets bisa diakses, dk perlu tambah satu2
+    - assets/
     - assets/logo.png
-    - assets/fish.png
+    - assets/FISH.png
     - assets/nilahitam.png
     - assets/tambak.png
     - assets/sample_fish.png

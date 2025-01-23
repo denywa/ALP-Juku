@@ -45,9 +45,12 @@ class BayarBerhasil extends StatelessWidget {
               ),
               onPressed: () {
                 // Navigate directly to the Dashboard
-                Navigator.pushReplacement(
+                Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => DashboardScreen()), // Ensure correct class name here
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DashboardScreen()), // Ensure correct class name here
+                  (Route<dynamic> route) => false, // Remove all previous routes
                 );
               },
               child: Text(

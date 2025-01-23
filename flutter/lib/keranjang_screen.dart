@@ -146,30 +146,34 @@ class _KeranjangScreenState extends State<KeranjangScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(140),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white, // Important for Material 3
-
+          surfaceTintColor: Colors.white,
           elevation: 0,
           flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.only(
+                top: 10.0, left: 16.0, right: 16.0), // Added left padding
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceBetween, // Align items to space between
               children: [
+                const Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: Text(
+                    'KERANJANG',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16), // Add space between text and logo
                 Center(
+                  // Center the logo vertically
                   child: Image.asset(
                     'assets/logo.png',
                     height: 50,
-                  ),
-                ),
-                SizedBox(height: 8.0),
-                Text(
-                  "KERANJANG",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
                   ),
                 ),
               ],
@@ -296,7 +300,8 @@ class _StatefulCartItemState extends State<StatefulCartItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onDetail, // Trigger the detail popup when the card is tapped
+      onTap:
+          widget.onDetail, // Trigger the detail popup when the card is tapped
       child: Card(
         elevation: 4,
         margin: EdgeInsets.only(bottom: 16),
@@ -315,16 +320,19 @@ class _StatefulCartItemState extends State<StatefulCartItem> {
               Expanded(
                 child: Row(
                   children: [
-                    Image.asset(widget.cartItem.imageUrl, width: 80, height: 80, fit: BoxFit.cover),
+                    Image.asset(widget.cartItem.imageUrl,
+                        width: 80, height: 80, fit: BoxFit.cover),
                     SizedBox(width: 16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("${widget.cartItem.itemNumber}. ${widget.cartItem.title}",
+                          Text(
+                              "${widget.cartItem.itemNumber}. ${widget.cartItem.title}",
                               style: TextStyle(fontWeight: FontWeight.bold)),
                           Text(widget.cartItem.subtitle),
-                          Text(widget.cartItem.quantity, style: TextStyle(color: Colors.grey)),
+                          Text(widget.cartItem.quantity,
+                              style: TextStyle(color: Colors.grey)),
                         ],
                       ),
                     ),
@@ -341,11 +349,13 @@ class _StatefulCartItemState extends State<StatefulCartItem> {
                           },
                           itemBuilder: (context) => [
                             PopupMenuItem(value: "Hapus", child: Text("Hapus")),
-                            PopupMenuItem(value: "Detail", child: Text("Detail")),
+                            PopupMenuItem(
+                                value: "Detail", child: Text("Detail")),
                           ],
                         ),
                         SizedBox(height: 8),
-                        Text(widget.cartItem.price, style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(widget.cartItem.price,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ],
@@ -371,32 +381,31 @@ class HoverableCard extends StatefulWidget {
 class _HoverableCardState extends State<HoverableCard> {
   bool isHovered = false;
 
-@override
-Widget build(BuildContext context) {
-  return MouseRegion(
-    onEnter: (_) => setState(() => isHovered = true),
-    onExit: (_) => setState(() => isHovered = false),
-    child: ElevatedButton(
-      onPressed: widget.onTap,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
-        padding: EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
+      child: ElevatedButton(
+        onPressed: widget.onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue,
+          padding: EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          minimumSize: Size(double.infinity, 50),
         ),
-        minimumSize: Size(double.infinity, 50),
-      ),
-      child: Text(
-        "Lanjut Belanja",
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+        child: Text(
+          "Lanjut Belanja",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }
 
 class QuantityOption extends StatelessWidget {

@@ -184,29 +184,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(140),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           elevation: 0,
           flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.only(
+                top: 10.0, left: 16.0, right: 16.0), // Added left padding
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment
+                  .spaceBetween, // Align items to space between
               children: [
+                const Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: Text(
+                    '👋 Welcome!',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16), // Add space between text and logo
                 Center(
+                  // Center the logo vertically
                   child: Image.asset(
                     'assets/logo.png',
                     height: 50,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                const Text(
-                  "JUKU SAMBALU",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
                   ),
                 ),
               ],

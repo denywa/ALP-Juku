@@ -21,6 +21,7 @@ class _RegistrasiScreenState extends State<RegistrasiScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -36,7 +37,7 @@ class _RegistrasiScreenState extends State<RegistrasiScreen> {
         );
 
         final response = await http.post(
-          Uri.parse('http://127.0.0.1:8000/api/register'),
+          Uri.parse('http://192.168.134.149:8000/api/register'),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -149,7 +150,6 @@ class _RegistrasiScreenState extends State<RegistrasiScreen> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         surfaceTintColor: Colors.white, // Important for Material 3
-
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -161,7 +161,8 @@ class _RegistrasiScreenState extends State<RegistrasiScreen> {
             children: [
               const CircleAvatar(
                 radius: 60,
-                backgroundImage: AssetImage('assets/FISH.png'),
+                backgroundImage:
+                    AssetImage('assets/logo.png'), // Fixed the image reference
               ),
               const SizedBox(height: 20),
               const Text(

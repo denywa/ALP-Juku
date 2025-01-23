@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'user_model.dart'; // Import the UserModel class
 
 class UserService {
-  final String baseUrl = "http://127.0.0.1:8000/api";
+  final String baseUrl = "http://192.168.134.149:8000/api";
 
   Future<UserModel?> getCurrentUser() async {
     try {

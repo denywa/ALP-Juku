@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final String baseUrl = "http://127.0.0.1:8000/api"; // URL backend
+  final String baseUrl = "http://192.168.134.149:8000/api"; // URL backend
 
   Future<bool> login(String email, String password) async {
     final url = Uri.parse('$baseUrl/login');
