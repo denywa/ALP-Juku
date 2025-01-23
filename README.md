@@ -61,5 +61,5 @@ Aplikasi ini dikembangkan menggunakan **Flutter** untuk aplikasi mobile dan **La
 - **[Levin Dawson Wisan](https://github.com/levinn1)** - 0806022310020
 - **[Muh. Ryan Ardiansyah](https://github.com/mzkyann)** - 0806022310019
 
-<p align="left">(👉ﾟヮﾟ)👉</p> <p align="right">👈(ﾟヮﾟ👈)</p>
+<p align="right">👈(ﾟヮﾟ👈)(👉ﾟヮﾟ)👉</p>
 
