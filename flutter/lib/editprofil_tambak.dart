@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfilTambakPage extends StatefulWidget {
   const EditProfilTambakPage({super.key});
@@ -9,147 +10,122 @@ class EditProfilTambakPage extends StatefulWidget {
 
 class _EditProfilTambakPageState extends State<EditProfilTambakPage> {
   bool isEditing = false;
+  String? siupFileName;
+  final ImagePicker _picker = ImagePicker();
+  
+  final TextEditingController namaController = TextEditingController(text: 'Tambak Ikan A');
   final TextEditingController alamatController = TextEditingController(
-      text:
-          'Universitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar');
-  final TextEditingController kontakController =
-      TextEditingController(text: '+62 081288888888');
-  final TextEditingController deskripsiController = TextEditingController(
-      text:
-          'Tambak ikan yang menjual ikan segar, terutama ikan bolu. Untuk pertanyaan lebih lanjut bisa chat lewat kontak');
+      text: 'Universitas Ciputra Makassar CPI Sunset Quay, Kec. Mariso, Kel. Tanjung, Kota Makassar');
+  final TextEditingController kontakController = TextEditingController(text: '+62 081288888888');
+  final TextEditingController rekeningController = TextEditingController(text: '1234567890');
+  
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        siupFileName = image.name;  // Store only the filename
+      });
+    }
+  }
+
+  Widget _buildEditableField(String label, TextEditingController controller, {int? maxLines = 1}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 100,
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: isEditing
+              ? TextField(
+                  controller: controller,
+                  maxLines: maxLines,
+                  decoration: const InputDecoration(border: OutlineInputBorder()),
+                )
+              : Text(controller.text, style: const TextStyle(fontSize: 16)),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil Toko'),
-        surfaceTintColor: Colors.white, // Important for Material 3
+        title: const Text('Profil Bisnis'),
+        surfaceTintColor: Colors.white,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profile Section
-            Row(
-              children: [
-                const CircleAvatar(
-                  radius: 40,
-                  child: Icon(
-                    Icons.person,
-                    size: 40,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                const Text(
-                  'Tambak Ikan A',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // Address Section
             Container(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 80,
-                        child: Text(
-                          'Alamat',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: isEditing
-                            ? TextField(
-                                controller: alamatController,
-                                maxLines: null,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                ),
-                              )
-                            : Text(
-                                alamatController.text,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                      ),
-                    ],
-                  ),
+                  _buildEditableField('Nama Bisnis', namaController),
                   const Divider(height: 32),
-
-                  // Contact Section
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        width: 80,
-                        child: Text(
-                          'Kontak',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: isEditing
-                            ? TextField(
-                                controller: kontakController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                ),
-                              )
-                            : Text(
-                                kontakController.text,
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                      ),
-                    ],
-                  ),
+                  _buildEditableField('Alamat', alamatController, maxLines: null),
                   const Divider(height: 32),
-
-                  // Description Section
+                  _buildEditableField('Kontak', kontakController),
+                  const Divider(height: 32),
+                  _buildEditableField('No. Rekening', rekeningController),
+                  const Divider(height: 32),
+                  
+                  // SIUP File Section
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(
-                        width: 80,
+                        width: 100,
                         child: Text(
-                          'Deskripsi',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          'SIUP',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: isEditing
-                            ? TextField(
-                                controller: deskripsiController,
-                                maxLines: null,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (siupFileName != null)
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                              )
-                            : Text(
-                                deskripsiController.text,
-                                style: const TextStyle(fontSize: 16),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.file_present),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        siupFileName!,
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
+                            if (isEditing)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: ElevatedButton.icon(
+                                  onPressed: _pickImage,
+                                  icon: const Icon(Icons.upload_file),
+                                  label: const Text('Upload SIUP'),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -178,7 +154,7 @@ class _EditProfilTambakPageState extends State<EditProfilTambakPage> {
                     setState(() {
                       isEditing = false;
                     });
-                    // Simpan perubahan logic
+                    // Save changes logic here
                   },
                   backgroundColor: Colors.blue,
                   child: const Icon(Icons.save),

@@ -122,7 +122,7 @@ class _PesananScreenState extends State<PesananScreen> {
                             children: [
                               Text(
                                 '18 Jan 2024',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)),
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,

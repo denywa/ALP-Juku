@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'navbar.dart';
 import 'detail_pesanan_tambak.dart';
 
 class PesananTambakPage extends StatelessWidget {
@@ -10,12 +9,6 @@ class PesananTambakPage extends StatelessWidget {
         title: Text('Pesanan Tambak'),
       ),
       body: PesananList(),
-      bottomNavigationBar: Navbar(
-        currentIndex: 1,
-        onTap: (int index) {
-          // Implement navigation logic based on index
-        },
-      ),
     );
   }
 }
@@ -240,4 +233,10 @@ class _PesananListState extends State<PesananList> {
       },
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: PesananTambakPage(),
+  ));
 }
