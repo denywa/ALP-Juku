@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // Menunggu 3 detik sebelum berpindah ke halaman login
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushReplacementNamed(context, '/dashboard');
     });
   }
 
@@ -27,7 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             const CircleAvatar(
               radius: 60,
-              backgroundImage: AssetImage('assets/FISH.png'), // Gambar logo atau ikon aplikasi
+              backgroundImage: AssetImage(
+                  'assets/FISH.png'), // Gambar logo atau ikon aplikasi
             ),
             const SizedBox(height: 20),
             const Text(

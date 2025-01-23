@@ -41,7 +41,6 @@ dependencies:
   shared_preferences: ^2.3.5
   image_picker: ^0.8.7+4
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -70,6 +69,7 @@ flutter:
     - assets/icons/cart.png
     - assets/icons/account.png
     - assets/icons/menu.png
+    - assets/gambarproduk.jpeg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -17,7 +17,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -60,12 +59,141 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  Widget _buildRatingStars() {
+    return Row(
+      children: List.generate(5, (index) {
+        return Icon(
+          Icons.star,
+          color: index < 4
+              ? Colors.amber
+              : Colors.grey, // 4 stars yellow, 1 star grey
+          size: 16,
+        );
+      }),
+    );
+  }
+
+  Widget _buildProductCard(Map<String, dynamic> product) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      elevation: 0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image Container
+          Expanded(
+            flex: 3,
+            child: ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(8)),
+              child: Image.network(
+                product['image'],
+                fit: BoxFit.cover,
+                width: double.infinity,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    'assets/sample_fish.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  );
+                },
+              ),
+            ),
+          ),
+          // Product Details Container
+          Container(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Product Name
+                Text(
+                  product['name'],
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                // Price
+                Text(
+                  'Rp ${product['price']}/kg',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                // Rating Stars
+                _buildRatingStars(),
+                const SizedBox(height: 4),
+                // Location
+                Row(
+                  children: const [
+                    Icon(
+                      Icons.location_on,
+                      size: 14,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        'Makassar',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        backgroundColor: Colors.blue,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(140),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          elevation: 0,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Image.asset(
+                    'assets/logo.png',
+                    height: 50,
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                const Text(
+                  "JUKU SAMBALU",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -116,9 +244,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 2 / 3,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                childAspectRatio: 0.8,
               ),
               itemCount: _searchResults.length,
               padding: const EdgeInsets.all(16.0),
@@ -138,25 +266,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     );
                   },
-                  child: Card(
-                    elevation: 2,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Image.network(
-                            product['image'],
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          product['name'],
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text('Rp ${product['price']}'),
-                      ],
-                    ),
-                  ),
+                  child: _buildProductCard(product),
                 );
               },
             ),

@@ -25,13 +25,13 @@ class DetailPesananPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            // Grey Card
+            // White Card
             Card(
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
-              color: Colors.grey[200],
+              color: Colors.white, // Changed to white
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -133,7 +133,7 @@ class DetailPesananPage extends StatelessWidget {
             const SizedBox(height: 16),
             Card(
               elevation: 0,
-              color: Colors.grey[200],
+              color: Colors.white, // Changed to white
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -192,7 +192,7 @@ class DetailPesananPage extends StatelessWidget {
               },
               child: Card(
                 elevation: 0,
-                color: Colors.grey[200],
+                color: Colors.white, // Changed to white
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(

@@ -9,6 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:apk/service/auth_service.dart'; // Import AuthService
 import 'package:apk/service/user_service.dart'; // Import UserService
 import 'package:apk/service/user_model.dart'; // Import UserModel
+import 'editprofil_tambak.dart';
+import 'kelola_produk.dart';
+import 'pesanan_tambak.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -163,10 +166,38 @@ class _MenuScreenState extends State<MenuScreen> {
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.business),
+                  title: Text('Edit Profil Bisnis'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditProfilTambakPage()),
+                    );
+                  },
+                ),
+                ListTile(
                   leading: Icon(Icons.store),
                   title: Text('Kelola Produk'),
                   onTap: () {
-                    // Navigasi bisa ditambahkan di sini jika perlu
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductManagementPage(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.list),
+                  title: Text('List Pesanan'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PesananTambakPage(),
+                      ),
+                    );
                   },
                 ),
               ],

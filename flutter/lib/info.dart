@@ -184,11 +184,15 @@ class _InformasiPribadiPageState extends State<InformasiPribadiPage> {
                           radius: 25,
                           child: _image != null
                               ? ClipOval(
-                                  child: Image.file(
-                                    _image!,
+                                  child: Image.network(
+                                    userData!.image!,
                                     width: 50,
                                     height: 50,
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(Icons.account_circle,
+                                          size: 50);
+                                    },
                                   ),
                                 )
                               : (userData?.image != null

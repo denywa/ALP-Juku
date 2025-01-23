@@ -76,6 +76,7 @@ class _LanjutBayarPageState extends State<LanjutBayarPage> {
               Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
+                  color: Colors.white, // Set background color to white
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8),
                 ),

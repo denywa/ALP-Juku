@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'checkout.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final String productName;
   final String productPrice;
   final String productImage;
@@ -10,16 +11,37 @@ class DetailScreen extends StatelessWidget {
     super.key,
     required this.productName,
     required this.productPrice,
-    required this.productImage,
     required this.productDescription,
+    required this.productImage,
   });
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  int quantity = 1;
+
+  void _incrementQuantity() {
+    setState(() {
+      quantity++;
+    });
+  }
+
+  void _decrementQuantity() {
+    if (quantity > 1) {
+      setState(() {
+        quantity--;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(productName),
-        surfaceTintColor: Colors.white, // Important for Material 3
+        title: Text(widget.productName),
+        surfaceTintColor: Colors.white,
       ),
       body: Stack(
         children: [
@@ -30,28 +52,34 @@ class DetailScreen extends StatelessWidget {
               Card(
                 elevation: 2,
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(12), // Improved card radius
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(12), // Improved image radius
+                  borderRadius: BorderRadius.circular(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
-                        productImage,
+                        widget.productImage,
                         fit: BoxFit.cover,
                         height: 200,
                         width: double.infinity,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'assets/sample_fish.png', // Placeholder image
+                            fit: BoxFit.cover,
+                            height: 200,
+                            width: double.infinity,
+                          );
+                        },
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              productName,
+                              widget.productName,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -59,10 +87,11 @@ class DetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              productPrice,
+                              'Rp. ${widget.productPrice} / kg',
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 18,
                                 color: Color.fromARGB(255, 2, 202, 224),
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -88,10 +117,9 @@ class DetailScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage(
-                                  'assets/tambak.png'), // Replace with your store profile image path
+                              backgroundImage: AssetImage('assets/tambak.png'),
                             ),
                             const SizedBox(width: 16),
                             Column(
@@ -132,7 +160,7 @@ class DetailScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    productDescription,
+                    widget.productDescription,
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
@@ -156,10 +184,10 @@ class DetailScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(5, (index) {
-                          return const Icon(
-                            Icons.star_border,
+                          return Icon(
+                            index < 4 ? Icons.star : Icons.star_border,
                             size: 32,
-                            color: Colors.grey,
+                            color: index < 4 ? Colors.yellow : Colors.grey,
                           );
                         }),
                       ),
@@ -167,37 +195,107 @@ class DetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                  height: 80), // Extra padding to prevent overlap with buttons
+              const SizedBox(height: 100),
             ],
           ),
-          // Floating Action Buttons for Add to Cart and Buy Now
+          // Bottom Bar with Quantity Controls and Action Buttons
           Positioned(
-            bottom: 20,
-            left: 20,
-            right: 20,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Add to Cart Button
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    // Add to cart logic goes here
-                  },
-                  label: const Text("Tambahkan ke Keranjang"),
-                  icon: const Icon(Icons.shopping_cart),
-                  backgroundColor: Colors.blue,
-                ),
-                // Buy Now Button
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    // Buy now logic goes here
-                  },
-                  label: const Text("Beli Sekarang"),
-                  icon: const Icon(Icons.payment),
-                  backgroundColor: Colors.green,
-                ),
-              ],
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  // Quantity Controls
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: _decrementQuantity,
+                          icon: const Icon(Icons.remove),
+                          color: Colors.blue,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text(
+                            '$quantity',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: _incrementQuantity,
+                          icon: const Icon(Icons.add),
+                          color: Colors.blue,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // Cart Icon Button
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        // Add to cart logic
+                      },
+                      icon:
+                          const Icon(Icons.shopping_cart, color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // Buy Now Button
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CheckoutPage(), // Navigate to CheckoutPage
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        'Beli Sekarang',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
