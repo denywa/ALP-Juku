@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'service/dashboard_service.dart';
 import 'detail_screen.dart';
@@ -16,11 +17,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
   List<Map<String, dynamic>> _searchResults = [];
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
+  final PageController _promoController = PageController();
+  final List<String> _promoTexts = [
+    'Temukan ikan segar langsung dari peternak terpercaya!',
+    'Pilih berbagai jenis ikan untuk kebutuhanmu, kapan saja!',
+    'Pesan ikan favoritmu dengan mudah dan cepat hanya di sini!'
+  ];
 
   @override
   void initState() {
     super.initState();
     _fetchProducts();
+
+    // Auto-scroll promo carousel with animation
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Timer.periodic(const Duration(seconds: 3), (timer) {
+        if (_promoController.hasClients) {
+          if (_promoController.page == _promoTexts.length - 1) {
+            _promoController.animateToPage(
+              0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            ); // Animate to the first page
+          } else {
+            _promoController.nextPage(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+      });
+    });
   }
 
   Future<void> _fetchProducts() async {
@@ -64,9 +91,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       children: List.generate(5, (index) {
         return Icon(
           Icons.star,
-          color: index < 4
-              ? Colors.amber
-              : Colors.grey, // 4 stars yellow, 1 star grey
+          color: index < 4 ? Colors.amber : Colors.grey,
           size: 16,
         );
       }),
@@ -82,7 +107,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image Container
           Expanded(
             flex: 3,
             child: ClipRRect(
@@ -102,13 +126,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ),
-          // Product Details Container
           Container(
             padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Product Name
                 Text(
                   product['name'],
                   style: const TextStyle(
@@ -119,7 +141,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 4),
-                // Price
                 Text(
                   'Rp ${product['price']}/kg',
                   style: const TextStyle(
@@ -128,10 +149,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                // Rating Stars
                 _buildRatingStars(),
                 const SizedBox(height: 4),
-                // Location
                 Row(
                   children: const [
                     Icon(
@@ -215,18 +234,87 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Container(
+              child: SizedBox(
                 height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Promo! Diskon 50% untuk semua ikan Bolu!',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
+                child: PageView.builder(
+                  controller: _promoController,
+                  itemCount: _promoTexts.length,
+                  padEnds: false,
+                  pageSnapping: true,
+                  allowImplicitScrolling: true,
+                  physics: const PageScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 500),
+                        opacity: 1.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.blue.shade500.withOpacity(0.8),
+                                Colors.blue.shade300.withOpacity(0.6),
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned.fill(
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.black.withOpacity(0.3),
+                                        Colors.black.withOpacity(0.1),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: TweenAnimationBuilder<double>(
+                                  duration: const Duration(milliseconds: 600),
+                                  tween: Tween(begin: 20.0, end: 0.0),
+                                  builder: (context, value, child) {
+                                    return Transform.translate(
+                                      offset: Offset(0, value),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: Text(
+                                          _promoTexts[index],
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -278,5 +366,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         onTap: (index) {},
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _promoController.dispose();
+    _searchController.dispose();
+    super.dispose();
   }
 }
