@@ -63,5 +63,5 @@ Aplikasi ini dikembangkan menggunakan **Flutter** untuk aplikasi mobile dan **La
 
 <div style="display: flex">
     <span>(👉ﾟヮﾟ)👉</span>
-    <p align="right">made with ❤️ from the Angkutmi Team</p>
+    <p align="right">👈(ﾟヮﾟ👈)</p>
 </div>
