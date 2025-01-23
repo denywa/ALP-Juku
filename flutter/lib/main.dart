@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Juku Sambalu',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(), // Show SplashScreen first
+      home: const SplashScreen(),  // Show SplashScreen first
       routes: {
         '/login': (context) => const LoginScreen(),
         '/dashboard': (context) => const DashboardScreen(),
