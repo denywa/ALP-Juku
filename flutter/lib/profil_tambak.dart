@@ -8,7 +8,6 @@ class ProfilTambakPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil Toko'),
-        surfaceTintColor: Colors.white, // Important for Material 3
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -18,11 +17,13 @@ class ProfilTambakPage extends StatelessWidget {
             // Profile Section
             Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 40,
+                  backgroundColor: Colors.grey[300],
                   child: Icon(
                     Icons.person,
                     size: 40,
+                    color: Colors.grey[700],
                   ),
                 ),
                 const SizedBox(width: 16),
